@@ -240,8 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5172873ec08207544a65fd7179d630ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 2810665445757135175, guid: b871eea1436c31841802173eb8563e12, type: 3}
-  player2: {fileID: 693170741477724660, guid: 7e2db37c1e6e51e449ffc8982868f3c8, type: 3}
+  player1: {fileID: 6425677961234491085, guid: 9be0da4bc87858e4f975fd4f23376dff, type: 3}
+  player2: {fileID: 6936745492311206717, guid: ed8014d331885c24c89b67c7d449bc21, type: 3}
 --- !u!4 &1255787216
 Transform:
   m_ObjectHideFlags: 0
