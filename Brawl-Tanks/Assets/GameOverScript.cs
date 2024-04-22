@@ -15,6 +15,7 @@ public class GameOverScript : MonoBehaviour
     [SerializeField] private string gameSceneName = "Game";
     private bool GameOver = false;
     public Button mainMenuButton;
+    public GameObject mainMenuButtonObject;
     public void RestartGame()
     {
         SceneManager.LoadScene(mainMenuSceneName);
@@ -31,6 +32,7 @@ public class GameOverScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mainMenuButtonObject.SetActive(false);
         // Retrieve the player ID from PlayerPrefs
         int destroyedPlayerID = PlayerPrefs.GetInt("DestroyedPlayerID");
         // Set the text of the UI Text component to display the destroyed player's ID
@@ -38,6 +40,7 @@ public class GameOverScript : MonoBehaviour
         {
             GameOver = true;
             mainMenuButton.interactable = true;
+            mainMenuButtonObject.SetActive(true);
             if(GameState.P1Score == GameState.goal){
             playerDestroyedText.text = "Player 1 wins!";
             } else if(GameState.P2Score == GameState.goal){
