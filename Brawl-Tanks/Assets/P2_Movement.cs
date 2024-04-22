@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class P2_Movement : MonoBehaviour
 {
+    public GameManager.PlayerID playerID; // Assign PlayerID in the inspector
     private float speed = 5f;
     private float rotationSpeed = 1f;
     public Rigidbody2D rb;
@@ -70,6 +71,8 @@ public class P2_Movement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "Bullet"){
             Destroy(gameObject);
+            // Access the GameManager instance and inform that this player is destroyed
+            GameManager.instance.PlayerDestroyed(playerID);
         }
     }
 }
