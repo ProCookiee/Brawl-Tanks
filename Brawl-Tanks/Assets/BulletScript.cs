@@ -25,5 +25,11 @@ public class BulletScript : MonoBehaviour
         if(other.gameObject.tag == "Player"){
             Destroy(gameObject);
         }
+
+        if(other.gameObject.tag == "Wall"){
+            Vector2 normal = other.contacts[0].normal;
+            Vector2 direction = Vector2.Reflect(transform.up, normal);
+            transform.up = direction;
+        }
     }
 }
