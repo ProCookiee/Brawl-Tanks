@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject player1;
     public GameObject player2;
+    public GameObject wallPrefab;
 
     // Ensure only one instance of GameManager exists
     private void Awake()
@@ -41,13 +42,15 @@ public class GameManager : MonoBehaviour
         goalText.text = "First to: " + GameState.goal.ToString();
         //gamemodeText.text = GameState.gamemode;
 
-        Instantiate(player1, new Vector3(-4, 0, 0), Quaternion.identity);
-        Instantiate(player2, new Vector3(4, 0, 0), Quaternion.identity);
+        Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
+        Instantiate(player2, GenerateSpawnLocation(2), Quaternion.identity);
 
-        //Nastavim zacetni rezultat
+        // Nastavim zacetni rezultat
         P1ScoreText.text = "P1: " + GameState.P1Score;
         P2ScoreText.text = "P2: " + GameState.P2Score;
 
+        // Zgeneriram mapo
+        MapGenerator.GenerateMap(wallPrefab);
     }
 
     // Update is called once per frame
@@ -77,5 +80,21 @@ public class GameManager : MonoBehaviour
             player2Destroyed = true;
             PlayerPrefs.SetInt("DestroyedPlayerID", 2); // Player 2 was destroyed
         }
+    }
+
+    Vector3 GenerateSpawnLocation(int player)
+    {
+        float x, y;
+
+        // mapa je 8x4, torej ConvertY prejme 0-4, ConvertX pa 0-8
+        if (player == 1)
+            x = MapGenerator.ConvertX(Random.Range(0, 3));
+        else
+            x = MapGenerator.ConvertX(Random.Range(5, 8));
+
+        y = MapGenerator.ConvertY(Random.Range(0, 4));
+
+        // x+1f in y-1f, da premaknem iz zgornje levega kota celice v sredino celice
+        return new Vector3(x+1f, y-1f, 0f);
     }
 }

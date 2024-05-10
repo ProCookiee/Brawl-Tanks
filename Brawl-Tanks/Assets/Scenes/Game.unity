@@ -654,11 +654,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goalText: {fileID: 1921233342}
-  gamemodeText: {fileID: 0}
   P1ScoreText: {fileID: 469983035}
   P2ScoreText: {fileID: 1876328385}
   player1: {fileID: 6425677961234491085, guid: 9be0da4bc87858e4f975fd4f23376dff, type: 3}
   player2: {fileID: 6936745492311206717, guid: ed8014d331885c24c89b67c7d449bc21, type: 3}
+  wallPrefab: {fileID: 4363770085553358205, guid: aa02a29efcae025499a26d4db04e53f6, type: 3}
 --- !u!4 &1255787216
 Transform:
   m_ObjectHideFlags: 0
