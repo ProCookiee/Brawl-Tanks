@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private bool player2Destroyed = false;
 
     public TextMeshProUGUI goalText;
-    public TextMeshProUGUI gamemodeText;
+    //public TextMeshProUGUI gamemodeText;
     public TextMeshProUGUI P1ScoreText;
     public TextMeshProUGUI P2ScoreText;
 
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     {
         
         goalText.text = "First to: " + GameState.goal.ToString();
-        gamemodeText.text = GameState.gamemode;
+        //gamemodeText.text = GameState.gamemode;
 
         Instantiate(player1, new Vector3(-4, 0, 0), Quaternion.identity);
         Instantiate(player2, new Vector3(4, 0, 0), Quaternion.identity);
