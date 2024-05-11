@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3519418820721347717}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 6635478634987103637}
   - component: {fileID: 4285092659375884142}
   - component: {fileID: 2532201181730298659}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: power_ray
   m_TagString: Ability
   m_Icon: {fileID: 0}
