@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3676147165930266856}
   - component: {fileID: 64384139431051954}
   - component: {fileID: 4776418056537880927}
-  m_Layer: 0
+  - component: {fileID: 7937684804306203611}
+  m_Layer: 3
   m_Name: P2_Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -98,7 +99,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 58b78f5946b8c0349ab67e4988e4853b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -136,3 +137,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff7e494f4fbdc642bfcf67d2b31b443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &7937684804306203611
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2837667172888956689}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
