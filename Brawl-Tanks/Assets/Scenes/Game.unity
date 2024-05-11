@@ -634,6 +634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1255787216}
   - component: {fileID: 1255787215}
+  - component: {fileID: 1255787217}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -674,6 +675,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1255787217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255787214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d5e315373075f42b68a70bbdba918f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1: {fileID: 0}
+  player2: {fileID: 0}
+  prefabSize: 0.08
+  minSpawnRate: 3
+  maxSpawnRate: 15
+  maxAbilities: 6
+  abilityPrefabs:
+  - {fileID: 6936745492311206717, guid: 07b4f5568b76d744b8afc445d2955208, type: 3}
+  - {fileID: 6936745492311206717, guid: 73de36f860a2b804da7aebc2a3f15f47, type: 3}
 --- !u!1 &1287959992
 GameObject:
   m_ObjectHideFlags: 0
