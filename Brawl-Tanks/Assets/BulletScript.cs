@@ -8,6 +8,7 @@ public class BulletScript : MonoBehaviour
     int hits = 0;
     int maxHits = 10;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

@@ -6,7 +6,6 @@ public class P1_Movement : MonoBehaviour
 {
     public AbilityScript AbilityScr;
 
-
     public GameManager.PlayerID playerID; // Assign PlayerID in the inspector
     
     private float speed = 5f;
