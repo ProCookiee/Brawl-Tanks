@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class P1_Movement : MonoBehaviour
 {
+    public AbilityScript AbilityScr;
+
+
     public GameManager.PlayerID playerID; // Assign PlayerID in the inspector
     
     private float speed = 5f;
@@ -49,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         isMoving = true;
     }
 
-    if(!isMoving && Input.GetKey(KeyCode.Q) && canShoot){
+    if(Input.GetKey(KeyCode.Q) && canShoot){
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         canShoot = false;
         bulletCount++;
@@ -74,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
             Destroy(gameObject);
             // Access the GameManager instance and inform that this player is destroyed
             GameManager.instance.PlayerDestroyed(playerID);
+        }
+        if(other.gameObject.tag == "Ability"){
+            Destroy(other.gameObject);
+            AbilityScr.doSomething(gameObject, other.gameObject);
+            // Access the GameManager instance and inform that this player is destroyed
         }
     }
 
