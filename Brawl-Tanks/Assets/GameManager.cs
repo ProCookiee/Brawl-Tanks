@@ -82,15 +82,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    Vector3 GenerateSpawnLocation(int player)
+    public Vector3 GenerateSpawnLocation(int player)
     {
         float x, y;
 
         // mapa je 8x4, torej ConvertY prejme 0-4, ConvertX pa 0-8
         if (player == 1)
             x = MapGenerator.ConvertX(Random.Range(0, 3));
-        else
+        else if (player == 2)
             x = MapGenerator.ConvertX(Random.Range(5, 8));
+        else
+            x = MapGenerator.ConvertX(Random.Range(0, 8));
 
         y = MapGenerator.ConvertY(Random.Range(0, 4));
 
