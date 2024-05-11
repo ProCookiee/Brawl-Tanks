@@ -7,9 +7,11 @@ public class AbilityScript : MonoBehaviour
 {
     P1_Movement p1;
     P2_Movement p2;
+
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -19,10 +21,20 @@ public class AbilityScript : MonoBehaviour
     }
     public void doSomething(GameObject player, GameObject ability)
     {
-        
-        if(ability.name == "laser")
+        p1 = player.GetComponent<P1_Movement>();
+        p2 = player.GetComponent<P2_Movement>();
+
+        if(ability.name == "power_laser(Clone)")
         {
-            laser(player);
+            Debug.Log("Laser");
+            if(player.name == "P1_Tank(Clone)")
+            {
+                p1.currentAbility = "laser";
+            }
+            else if(player.name == "P2_Tank(Clone)")
+            {
+                p2.currentAbility = "laser";
+            }
         }
         else if(ability.name == "deathRay")
         {
@@ -32,8 +44,4 @@ public class AbilityScript : MonoBehaviour
         Destroy(ability);
     }
 
-    public void laser(GameObject player)
-    {
-        p1.firePoint = player.transform.Find("Turret");
-    }
 }

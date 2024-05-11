@@ -690,7 +690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabSize: 0.08
   minSpawnRate: 3
-  maxSpawnRate: 15
+  maxSpawnRate: 5
   maxAbilities: 6
   abilityPrefabs:
   - {fileID: 6936745492311206717, guid: 07b4f5568b76d744b8afc445d2955208, type: 3}

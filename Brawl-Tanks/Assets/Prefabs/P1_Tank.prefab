@@ -129,10 +129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd90e6d1bbfda234d99374b543e9d250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 0
   rb: {fileID: 6764684953273636010}
   bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
+  laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
   firePoint: {fileID: 0}
   canShoot: 1
+  currentAbility: 
 --- !u!60 &778483471321338912
 PolygonCollider2D:
   m_ObjectHideFlags: 0

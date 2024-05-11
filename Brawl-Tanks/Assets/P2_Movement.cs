@@ -15,6 +15,7 @@ public class P2_Movement : MonoBehaviour
     public bool canShoot = true;
     private int bulletCount;
 
+    public string currentAbility = "";
 
     void Start()
     {
@@ -84,4 +85,5 @@ public class P2_Movement : MonoBehaviour
             abilityScript.doSomething(gameObject, other.gameObject);
         }
     }
+    
 }
