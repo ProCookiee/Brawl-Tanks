@@ -688,6 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d5e315373075f42b68a70bbdba918f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityScript: {fileID: 1255787218}
   prefabSize: 0.08
   minSpawnRate: 3
   maxSpawnRate: 5

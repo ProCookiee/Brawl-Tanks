@@ -2,86 +2,90 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 
 
 public class AbilitiesSpawning : MonoBehaviour
 {
-    public struct SpawnedAbility 
-    {
-        public GameObject abilityObject;
-        public Vector3 location;
-    }
-    //public Vector3 topLeftCorner;
-    //public Vector3 bottomRightCorner;
-    //public GameObject abilityPrefab_laser;
-    //public GameObject abilityPrefab_deathRay;
-    //public GameObject wallPrefab;
-    //public GameObject player1;
-    //public GameObject player2;
-    
+
+    public AbilityScript abilityScript;
 
     public float prefabSize = 0.08f;
     public float minSpawnRate = 3.0f;
     public float maxSpawnRate = 15.0f;
     public int maxAbilities = 6;
     public List<GameObject> abilityPrefabs;
-    private List<SpawnedAbility> spawnedAbilities;
+    
 
     private float nextSpawnTime;
-    private List<Vector3> spawnLocations; // Add missing variable declaration
+    //shranjuje lokacije, kjer so že abilityji
+    private List<Vector3> busyLocations = new();
+    //število trenutno spawnanih abilityjev
     private int currentAbilityCount = 0;
 
     void Start()
     {
         // Set the initial spawn time
         nextSpawnTime = Time.time + Random.Range(minSpawnRate, maxSpawnRate);
+        // Subscribe to the CollectionChanged event
+        abilityScript.spawnedAbilities.CollectionChanged += SpawnedAbilities_CollectionChanged;
+    }
+
+    // to je listener lista ki je v AbilityScript.cs, ko shranjuje aktivne abilityje
+    // This method will be called whenever an item is added or removed from spawnedAbilities
+    private void SpawnedAbilities_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        //abilityji so dodani
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            foreach(GameObject newItem in e.NewItems)
+            {
+                currentAbilityCount++;
+                busyLocations.Add(newItem.transform.position);
+            }
+        }
+        //abilityi so odstranjeni
+        else if (e.Action == NotifyCollectionChangedAction.Remove)
+        {
+            foreach(GameObject oldItem in e.OldItems)
+            {
+                currentAbilityCount--;
+                busyLocations.Remove(oldItem.transform.position);
+            }
+        }
+        Debug.Log("Current ability count: " + currentAbilityCount);
     }
 
     // Update is called once per frame
     void Update()
     {
         // Check if it's time to spawn a new ability
-        if (Time.time >= nextSpawnTime)
+        if (Time.time >= nextSpawnTime && currentAbilityCount < maxAbilities)
         {
-            SpawnAbility();
             // Calculate spawn rate based on the number of existing abilities
             float spawnRate = Mathf.Lerp(minSpawnRate, maxSpawnRate, currentAbilityCount / (float)maxAbilities); 
             nextSpawnTime = Time.time + spawnRate;
+            SpawnAbility();
         }
+        
     }
 
     void SpawnAbility()
     {
-        Vector3 spawnLocation = GameManager.instance.GenerateSpawnLocation(3);
+        Vector3 spawnLocation;
+        // Keep generating a new spawn location until a free one is found
+        do{
+            spawnLocation = GameManager.instance.GenerateSpawnLocation(3);
+        } while (busyLocations.Contains(spawnLocation));
+        // Select a random ability prefab
         GameObject abilityPrefab = abilityPrefabs[Random.Range(0, abilityPrefabs.Count)];
-
-        //spawnedAbilities.Add(new SpawnedAbility { abilityObject = abilityPrefab, location = spawnLocation });
         GameObject abilityInstance = Instantiate(abilityPrefab, spawnLocation, Quaternion.identity);
-        abilityInstance.transform.localScale = new Vector3(prefabSize, prefabSize, 1); // replace with your desired size
-
-        // Increment ability count
-        currentAbilityCount++; 
-        // Attach a OnDestroy listener to the spawned ability
-        abilityInstance.AddComponent<AbilityCleanup>().onDestroyCallback = OnAbilityDestroyed;     
-    }
-    private void OnAbilityDestroyed()
-    {
-        // Decrement ability count
-        currentAbilityCount--;
+        // Spremeni velikost abilityja (lak nastavlas v unityu)
+        abilityInstance.transform.localScale = new Vector3(prefabSize, prefabSize, 1);
+        // Dodaj ability v listo aktivnih abilityjev v AbilityScript.cs
+        abilityScript.newAbility(abilityInstance);     
     }
 }
 
-// Helper component to trigger an event when an ability GameObject is destroyed
-public class AbilityCleanup : MonoBehaviour
-{
-    public System.Action onDestroyCallback; 
-
-    private void OnDestroy()
-    {
-        if (onDestroyCallback != null)
-        {
-            onDestroyCallback();
-        }
-    }
-}
