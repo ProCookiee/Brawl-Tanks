@@ -696,6 +696,10 @@ MonoBehaviour:
   abilityPrefabs:
   - {fileID: 6936745492311206717, guid: 07b4f5568b76d744b8afc445d2955208, type: 3}
   - {fileID: 6936745492311206717, guid: 73de36f860a2b804da7aebc2a3f15f47, type: 3}
+  - {fileID: 6936745492311206717, guid: c4456c2adc8b4e7419589589a5b08992, type: 3}
+  - {fileID: 6936745492311206717, guid: 13331ad31ac8c9840b3d2ce6f4b3c5a5, type: 3}
+  - {fileID: 6936745492311206717, guid: 5ed5e9bbad3564e4898129e14fbc5a7f, type: 3}
+  - {fileID: 6936745492311206717, guid: 2f76cabf98312d84e82d7b1845d604d5, type: 3}
 --- !u!114 &1255787218
 MonoBehaviour:
   m_ObjectHideFlags: 0
