@@ -19,7 +19,7 @@ public class AbilityScript : MonoBehaviour
     }
     public void doSomething(GameObject player, GameObject ability)
     {
-        Destroy(ability);
+        
         if(ability.name == "laser")
         {
             laser(player);
@@ -28,6 +28,8 @@ public class AbilityScript : MonoBehaviour
         {
             //deathRay(player, ability);
         }
+        Debug.Log("Player: " + player.name + "Ability" + ability.name);
+        Destroy(ability);
     }
 
     public void laser(GameObject player)

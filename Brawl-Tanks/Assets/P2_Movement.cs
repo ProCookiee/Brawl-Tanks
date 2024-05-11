@@ -75,4 +75,13 @@ public class P2_Movement : MonoBehaviour
             GameManager.instance.PlayerDestroyed(playerID);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.tag == "Ability")
+        {
+            //Destroy(other.gameObject);
+            AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>(); // Access from GameManager
+            abilityScript.doSomething(gameObject, other.gameObject);
+        }
+    }
 }
