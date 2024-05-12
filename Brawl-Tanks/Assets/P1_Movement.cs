@@ -45,25 +45,25 @@ public class P1_Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             rb.MoveRotation(rb.rotation + 5 * rotationSpeed);
-            isMoving = true;
+            isMoving = false;
         }
         else if (Input.GetKey(KeyCode.D))
         {
             rb.MoveRotation(rb.rotation - 5 * rotationSpeed);
-            isMoving = true;
+            isMoving = false;
         }
 
         if (Input.GetKey(KeyCode.Q) && canShoot)
         {
             Debug.Log(currentAbility);
-            if (currentAbility == "laser")
+            if (currentAbility == "ray")
             {
                 Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
                 canShoot = false;
-                //currentAbility = "";
+                currentAbility = "";
                 StartCoroutine(ShootCooldown());
             }
-            else if (currentAbility == "deathRay")
+            else if (currentAbility == "laser")
             {
                 //deathRay();
             }

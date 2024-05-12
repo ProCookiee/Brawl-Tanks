@@ -30,19 +30,18 @@ public class AbilityScript : MonoBehaviour
         p1 = player.GetComponent<P1_Movement>();
         p2 = player.GetComponent<P2_Movement>();
 
-        if(ability.name == "power_laser(Clone)")
+        if(ability.name == "power_ray(Clone)")
         {
-            Debug.Log("Laser");
             if(player.name == "P1_Tank(Clone)")
             {
-                p1.currentAbility = "laser";
+                p1.currentAbility = "ray";
             }
             else if(player.name == "P2_Tank(Clone)")
             {
-                p2.currentAbility = "laser";
+                p2.currentAbility = "ray";
             }
         }
-        else if(ability.name == "deathRay")
+        else if(ability.name == "laser")
         {
             //deathRay(player, ability);
         }

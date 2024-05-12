@@ -14,6 +14,7 @@ public class P2_Movement : MonoBehaviour
 
     public bool canShoot = true;
     private int bulletCount;
+     public GameObject laserPrefab;
 
     public string currentAbility = "";
 
@@ -42,20 +43,35 @@ public class P2_Movement : MonoBehaviour
     if (Input.GetKey(KeyCode.LeftArrow))
     {
         rb.MoveRotation(rb.rotation + 5 * rotationSpeed);
-        isMoving = true;
+        isMoving = false;
     }
     else if (Input.GetKey(KeyCode.RightArrow))
     {
         rb.MoveRotation(rb.rotation - 5 * rotationSpeed);
-        isMoving = true;
+        isMoving = false;
     }
 
-    if(!isMoving && Input.GetKey(KeyCode.Space) && canShoot){
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        canShoot = false;
-        bulletCount++;
-        Debug.Log(bulletCount);
-        StartCoroutine(ShootCooldown());
+    if(Input.GetKey(KeyCode.Space) && canShoot){
+        Debug.Log(currentAbility);
+            if (currentAbility == "ray")
+            {
+                Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
+                canShoot = false;
+                currentAbility = "";
+                StartCoroutine(ShootCooldown());
+            }
+            else if (currentAbility == "laser")
+            {
+                //deathRay();
+            }
+            else if (currentAbility == "")
+            {
+                Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+                canShoot = false;
+                bulletCount++;
+                Debug.Log(bulletCount);
+                StartCoroutine(ShootCooldown());
+            }
     }
 
     if (!isMoving)

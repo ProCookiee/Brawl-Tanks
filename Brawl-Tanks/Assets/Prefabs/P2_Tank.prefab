@@ -162,9 +162,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 1
   rb: {fileID: 6672896108828600249}
-  bulletPrefab: {fileID: 2837667172888956689, guid: e9b2d998f9bc63641b9ad4b462b736eb, type: 3}
+  bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
   firePoint: {fileID: 0}
   canShoot: 1
+  laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
+  currentAbility: 
 --- !u!60 &3561993310707591920
 PolygonCollider2D:
   m_ObjectHideFlags: 0
