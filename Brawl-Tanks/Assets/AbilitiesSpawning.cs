@@ -84,6 +84,7 @@ public class AbilitiesSpawning : MonoBehaviour
         GameObject abilityInstance = Instantiate(abilityPrefab, spawnLocation, Quaternion.identity);
         // Spremeni velikost abilityja (lak nastavlas v unityu)
         abilityInstance.transform.localScale = new Vector3(prefabSize, prefabSize, 1);
+        abilityInstance.name = abilityPrefab.name;
         // Dodaj ability v listo aktivnih abilityjev v AbilityScript.cs
         abilityScript.newAbility(abilityInstance);     
     }

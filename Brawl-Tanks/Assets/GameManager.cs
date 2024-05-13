@@ -42,8 +42,10 @@ public class GameManager : MonoBehaviour
         goalText.text = "First to: " + GameState.goal.ToString();
         //gamemodeText.text = GameState.gamemode;
 
-        Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
-        Instantiate(player2, GenerateSpawnLocation(2), Quaternion.identity);
+        var p1 = Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
+        p1.name = "P1_Tank";
+        var p2 = Instantiate(player2, GenerateSpawnLocation(2), Quaternion.identity);
+        p2.name = "P2_Tank";
 
         // Nastavim zacetni rezultat
         P1ScoreText.text = "P1: " + GameState.P1Score;

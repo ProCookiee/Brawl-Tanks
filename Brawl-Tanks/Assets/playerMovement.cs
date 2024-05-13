@@ -12,7 +12,7 @@ public class playerMovement : MonoBehaviour
     public Rigidbody2D rb;
 
     public GameObject bulletPrefab;
-    public GameObject laserPrefab;
+
     public Transform firePoint;
 
     public bool canShoot = true;
@@ -91,11 +91,8 @@ public class playerMovement : MonoBehaviour
             else
             {
                 AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
-                if (currentAbility == "ray")
-                {
-                    abilityScript.selectAbility(gameObject, currentAbility);
-                    StartCoroutine(ShootCooldown());
-                }
+                abilityScript.selectAbility(gameObject, currentAbility);
+                StartCoroutine(ShootCooldown());
             }
         }
 

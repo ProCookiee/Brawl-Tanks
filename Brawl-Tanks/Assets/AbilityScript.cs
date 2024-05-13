@@ -14,6 +14,9 @@ public class AbilityScript : MonoBehaviour
     public ObservableCollection<GameObject> spawnedAbilities = new();
     playerMovement playerMovement;
 
+    public GameObject laserPrefab;
+    public GameObject shieldPrefab;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,10 +31,10 @@ public class AbilityScript : MonoBehaviour
     {
         playerMovement = player.GetComponent<playerMovement>();
 
-        if(ability.name == "power_ray(Clone)"){
+        if(ability.name == "power_ray"){
             playerMovement.currentAbility = "ray";
         }
-        else if(ability.name == "power_shield(Clone)"){
+        else if(ability.name == "power_shield"){
             playerMovement.currentAbility = "shield";
         }        
         //ability je bil uničen zato ga odstrani iz seznama aktivnih abilityjev
@@ -48,7 +51,7 @@ public class AbilityScript : MonoBehaviour
 
     public void selectAbility(GameObject player, string ability){
         if(ability == "shield"){
-            //shield(player, playerID);
+            shield(player);
         }
         else if(ability == "ray"){
             ray(player);
@@ -59,6 +62,14 @@ public class AbilityScript : MonoBehaviour
         playerMovement playerMovement = player.GetComponent<playerMovement>();
         playerMovement.currentAbility = "";
         playerMovement.canShoot = false;
-        Instantiate(playerMovement.laserPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+        Instantiate(laserPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+    }
+
+    public void shield(GameObject player){
+        playerMovement playerMovement = player.GetComponent<playerMovement>();
+        playerMovement.currentAbility = "";
+        playerMovement.canShoot = false;
+        var newShield = Instantiate(shieldPrefab, player.transform.position, player.transform.rotation);
+        newShield.name = player.name + "_Shield";
     }
 }
