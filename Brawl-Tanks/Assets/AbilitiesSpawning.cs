@@ -80,13 +80,14 @@ public class AbilitiesSpawning : MonoBehaviour
             spawnLocation = GameManager.instance.GenerateSpawnLocation(3);
         } while (busyLocations.Contains(spawnLocation));
         // Select a random ability prefab
-        GameObject abilityPrefab = abilityPrefabs[Random.Range(0, abilityPrefabs.Count)];
+        //GameObject abilityPrefab = abilityPrefabs[Random.Range(0, abilityPrefabs.Count)];
+        GameObject abilityPrefab = abilityPrefabs[2]; // 0 = laser, 1 = ray, 2 = frag 3 = gatling gun, 4 = rc, 5 = shield
         GameObject abilityInstance = Instantiate(abilityPrefab, spawnLocation, Quaternion.identity);
         // Spremeni velikost abilityja (lak nastavlas v unityu)
         abilityInstance.transform.localScale = new Vector3(prefabSize, prefabSize, 1);
         abilityInstance.name = abilityPrefab.name;
         // Dodaj ability v listo aktivnih abilityjev v AbilityScript.cs
-        abilityScript.newAbility(abilityInstance);     
+        abilityScript.newAbility(abilityInstance); 
     }
 }
 

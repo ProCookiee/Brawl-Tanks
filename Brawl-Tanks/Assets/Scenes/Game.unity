@@ -636,6 +636,7 @@ GameObject:
   - component: {fileID: 1255787215}
   - component: {fileID: 1255787217}
   - component: {fileID: 1255787218}
+  - component: {fileID: 1255787219}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -712,8 +713,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9251e52bb8f9b446930049005d6b745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1255787219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255787214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ec17b7d782ac24f9e83d6b15d49bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
   laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
+  laserLine: {fileID: 2928203500801869275, guid: f18cd9ce92fd3454f9df40541bf3efd5, type: 3}
   shieldPrefab: {fileID: 5188382780328982113, guid: de1078659e18fc345a7518c717c65031, type: 3}
+  fragmentPrefab: {fileID: 3044281992616833678, guid: ee245c08c64d1274e849f5fad826f905, type: 3}
 --- !u!1 &1287959992
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class ShieldScript : MonoBehaviour
         if(gameObject.name == "P1_Tank_Shield"){
             transform.position = GameObject.Find("P1_Tank").transform.position;
         }
-        else if(gameObject.name == "P2_Tank_shield"){
+        else if(gameObject.name == "P2_Tank_Shield"){
             transform.position = GameObject.Find("P2_Tank").transform.position;
         }
 

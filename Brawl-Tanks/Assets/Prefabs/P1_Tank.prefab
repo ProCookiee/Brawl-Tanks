@@ -195,6 +195,9 @@ MonoBehaviour:
   rb: {fileID: 6764684953273636010}
   bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
   laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
+  laserLine: {fileID: 2928203500801869275, guid: f18cd9ce92fd3454f9df40541bf3efd5, type: 3}
+  shieldPrefab: {fileID: 5188382780328982113, guid: de1078659e18fc345a7518c717c65031, type: 3}
+  fragmentPrefab: {fileID: 3044281992616833678, guid: ee245c08c64d1274e849f5fad826f905, type: 3}
   firePoint: {fileID: 4577669001084278903}
   canShoot: 1
   currentAbility: 

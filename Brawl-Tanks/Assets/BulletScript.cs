@@ -36,17 +36,25 @@ public class BulletScript : MonoBehaviour
         }
         else if (other.gameObject.tag == "Wall")
         {
-            hits++;
-
-            if (hits >= maxHits)
+            if (name == "fragment")
             {
-                Explode();
-                Destroy(gameObject);
+                StartCoroutine(twoSecondTimer());
             }
             else
             {
-                Explode();
+                hits++;
+
+                if (hits >= maxHits)
+                {
+                    Explode();
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    Explode();
+                }
             }
+
         }
     }
 
@@ -56,6 +64,28 @@ public class BulletScript : MonoBehaviour
         ParticleSystem explosionEffect = Instantiate(bulletExplosion, transform.position, Quaternion.identity);
         explosionEffect.Play();
         Destroy(explosionEffect.gameObject, explosionEffect.main.duration);
+    }
+
+    IEnumerator twoSecondTimer()
+    {
+        StartCoroutine(FadeOutFragment(gameObject, 2f));  // Correct reference to gameObject
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
+    }
+
+    IEnumerator FadeOutFragment(GameObject fragment, float fadeDuration) {
+        SpriteRenderer renderer = fragment.GetComponent<SpriteRenderer>();
+        if (renderer != null) {
+            float startAlpha = renderer.color.a;
+            for (float t = 0; t < 1; t += Time.deltaTime / fadeDuration) {
+                if (renderer == null) break; // Check if renderer still exists
+                Color newColor = renderer.color;
+                newColor.a = Mathf.Lerp(startAlpha, 0, t);
+                renderer.color = newColor;
+                yield return null;
+            }
+            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0);
+        }
     }
 
 }

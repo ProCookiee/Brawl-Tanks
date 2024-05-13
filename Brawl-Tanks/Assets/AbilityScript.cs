@@ -14,13 +14,12 @@ public class AbilityScript : MonoBehaviour
     public ObservableCollection<GameObject> spawnedAbilities = new();
     playerMovement playerMovement;
 
-    public GameObject laserPrefab;
-    public GameObject shieldPrefab;
-
+    Prefabs prefabs;
 
     // Start is called before the first frame update
     void Start()
     {
+        prefabs = GameObject.Find("GameManager").GetComponent<Prefabs>();
     }
     // Update is called once per frame
     void Update()
@@ -36,7 +35,10 @@ public class AbilityScript : MonoBehaviour
         }
         else if(ability.name == "power_shield"){
             playerMovement.currentAbility = "shield";
-        }        
+        }
+        else if(ability.name == "power_frag"){
+            playerMovement.currentAbility = "frag";
+        }
         //ability je bil uničen zato ga odstrani iz seznama aktivnih abilityjev
         spawnedAbilities.Remove(ability);
         Destroy(ability);
@@ -56,20 +58,58 @@ public class AbilityScript : MonoBehaviour
         else if(ability == "ray"){
             ray(player);
         }
+        else if(ability == "frag"){
+            frag(player);
+        }
     }
 
     public void ray(GameObject player){
         playerMovement playerMovement = player.GetComponent<playerMovement>();
         playerMovement.currentAbility = "";
         playerMovement.canShoot = false;
-        Instantiate(laserPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+        StartCoroutine(shotLaser());
+    }
+
+    IEnumerator shotLaser()
+    {
+        playerMovement.canMove = false;
+        yield return new WaitForSeconds(0.1f);
+        var laserLine = Instantiate(prefabs.laserLine, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+        yield return new WaitForSeconds(1);
+        Destroy(laserLine);
+        var laser = Instantiate(prefabs.laserPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+        yield return new WaitForSeconds(1);
+        Destroy(laser);
+        playerMovement.canMove = true;
     }
 
     public void shield(GameObject player){
         playerMovement playerMovement = player.GetComponent<playerMovement>();
         playerMovement.currentAbility = "";
         playerMovement.canShoot = false;
-        var newShield = Instantiate(shieldPrefab, player.transform.position, player.transform.rotation);
+        var newShield = Instantiate(prefabs.shieldPrefab, player.transform.position, player.transform.rotation);
         newShield.name = player.name + "_Shield";
     }
+
+    public void frag(GameObject player){
+        playerMovement playerMovement = player.GetComponent<playerMovement>();
+        playerMovement.currentAbility = "";
+        playerMovement.canShoot = false;
+        var fragBomb = Instantiate(prefabs.bulletPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+        //fragBomb.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        StartCoroutine(oneSecondFragExplode(fragBomb));
+    }
+
+    IEnumerator oneSecondFragExplode(GameObject fragBomb) {
+        yield return new WaitForSeconds(1);
+        Destroy(fragBomb);
+        for (int i = 0; i < 18; i++) {
+            var bullet = Instantiate(prefabs.fragmentPrefab, fragBomb.transform.position, Quaternion.identity);
+            bullet.transform.Rotate(0, 0, 20 * i);
+            bullet.GetComponent<Rigidbody2D>().AddForce(bullet.transform.up * 10f, ForceMode2D.Impulse);
+            bullet.name = "fragment";
+        }
+    }
+
+    
 }

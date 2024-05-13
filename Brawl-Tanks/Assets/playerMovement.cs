@@ -6,12 +6,10 @@ public class playerMovement : MonoBehaviour
 {
     public enum PlayerID { Player1, Player2 }
     public PlayerID playerID;
-    
+
     private float speed = 5f;
     private float rotationSpeed = 1f;
     public Rigidbody2D rb;
-
-    public GameObject bulletPrefab;
 
     public Transform firePoint;
 
@@ -20,6 +18,9 @@ public class playerMovement : MonoBehaviour
 
     public string currentAbility = "";
 
+    public bool canMove = true;
+    Prefabs prefabs;
+
     private KeyCode forwardKey, backwardKey, leftKey, rightKey, shootKey;
 
     void Start()
@@ -27,6 +28,7 @@ public class playerMovement : MonoBehaviour
         AssignControls();
         firePoint = transform.Find("Turret");
         bulletCount = 0;
+        prefabs = GameObject.Find("GameManager").GetComponent<Prefabs>();
     }
 
     void AssignControls()
@@ -52,49 +54,52 @@ public class playerMovement : MonoBehaviour
     void Update()
     {
         bool isMoving = false;
-
-        
-
-        if (Input.GetKey(forwardKey))
+        if (canMove)
         {
-            rb.MovePosition(rb.position + (speed / 100 * (Vector2)transform.up));
-            isMoving = true;
-        }
-        else if (Input.GetKey(backwardKey))
-        {
-            rb.MovePosition(rb.position - (speed / 100 * (Vector2)transform.up));
-            isMoving = true;
-        }
-
-        if (Input.GetKey(leftKey))
-        {
-            rb.MoveRotation(rb.rotation + 5 * rotationSpeed);
-            isMoving = false;
-        }
-        else if (Input.GetKey(rightKey))
-        {
-            rb.MoveRotation(rb.rotation - 5 * rotationSpeed);
-            isMoving = false;
-        }
-
-        if (Input.GetKey(shootKey) && canShoot)
-        {
-            Debug.Log(currentAbility);
-            if (currentAbility == "")
+            if (Input.GetKey(forwardKey))
             {
-                Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-                canShoot = false;
-                bulletCount++;
-                Debug.Log(bulletCount);
-                StartCoroutine(ShootCooldown());
+                rb.MovePosition(rb.position + (speed / 100 * (Vector2)transform.up));
+                isMoving = true;
             }
-            else
+            else if (Input.GetKey(backwardKey))
             {
-                AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
-                abilityScript.selectAbility(gameObject, currentAbility);
-                StartCoroutine(ShootCooldown());
+                rb.MovePosition(rb.position - (speed / 100 * (Vector2)transform.up));
+                isMoving = true;
+            }
+
+            if (Input.GetKey(leftKey))
+            {
+                rb.MoveRotation(rb.rotation + 5 * rotationSpeed);
+                isMoving = false;
+            }
+            else if (Input.GetKey(rightKey))
+            {
+                rb.MoveRotation(rb.rotation - 5 * rotationSpeed);
+                isMoving = false;
+            }
+
+            if (Input.GetKey(shootKey) && canShoot)
+            {
+                Debug.Log(currentAbility);
+                if (currentAbility == "")
+                {
+                    Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
+                    canShoot = false;
+                    bulletCount++;
+                    Debug.Log(bulletCount);
+                    StartCoroutine(ShootCooldown());
+                }
+                else
+                {
+                    AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
+                    abilityScript.selectAbility(gameObject, currentAbility);
+                    StartCoroutine(ShootCooldown());
+                }
             }
         }
+
+
+
 
         if (!isMoving)
         {
