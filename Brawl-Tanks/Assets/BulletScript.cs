@@ -8,11 +8,13 @@ public class BulletScript : MonoBehaviour
     int hits = 0;
     int maxHits = 10;
 
-
+    public ParticleSystem bulletExplosion;
+    public AudioSource bulletBounceSound;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = transform.up * 4f;
+
     }
 
     // Update is called once per frame
@@ -26,20 +28,34 @@ public class BulletScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-
-        if(other.gameObject.tag == "Player"){
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
             Destroy(gameObject);
         }
-
         else if (other.gameObject.tag == "Wall")
         {
             hits++;
 
             if (hits >= maxHits)
             {
+                Explode();
                 Destroy(gameObject);
+            }
+            else
+            {
+                Explode();
             }
         }
     }
+
+    void Explode()
+    {
+        bulletBounceSound.Play();
+        ParticleSystem explosionEffect = Instantiate(bulletExplosion, transform.position, Quaternion.identity);
+        explosionEffect.Play();
+        Destroy(explosionEffect.gameObject, explosionEffect.main.duration);
+    }
+
 }
