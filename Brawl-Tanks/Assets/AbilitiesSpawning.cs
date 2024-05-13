@@ -81,7 +81,7 @@ public class AbilitiesSpawning : MonoBehaviour
         } while (busyLocations.Contains(spawnLocation));
         // Select a random ability prefab
         //GameObject abilityPrefab = abilityPrefabs[Random.Range(0, abilityPrefabs.Count)];
-        GameObject abilityPrefab = abilityPrefabs[2]; // 0 = laser, 1 = ray, 2 = frag 3 = gatling gun, 4 = rc, 5 = shield
+        GameObject abilityPrefab = abilityPrefabs[3]; // 0 = laser, 1 = ray, 2 = frag 3 = gatling gun, 4 = rc, 5 = shield
         GameObject abilityInstance = Instantiate(abilityPrefab, spawnLocation, Quaternion.identity);
         // Spremeni velikost abilityja (lak nastavlas v unityu)
         abilityInstance.transform.localScale = new Vector3(prefabSize, prefabSize, 1);

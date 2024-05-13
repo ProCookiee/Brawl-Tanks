@@ -39,6 +39,9 @@ public class AbilityScript : MonoBehaviour
         else if(ability.name == "power_frag"){
             playerMovement.currentAbility = "frag";
         }
+        else if(ability.name == "power_gatling"){
+            playerMovement.currentAbility = "gatling";
+        }
         //ability je bil uničen zato ga odstrani iz seznama aktivnih abilityjev
         spawnedAbilities.Remove(ability);
         Destroy(ability);
@@ -60,6 +63,9 @@ public class AbilityScript : MonoBehaviour
         }
         else if(ability == "frag"){
             frag(player);
+        }
+        else if(ability == "gatling"){
+            gatling(player);
         }
     }
 
@@ -96,7 +102,7 @@ public class AbilityScript : MonoBehaviour
         playerMovement.currentAbility = "";
         playerMovement.canShoot = false;
         var fragBomb = Instantiate(prefabs.bulletPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
-        //fragBomb.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        fragBomb.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         StartCoroutine(oneSecondFragExplode(fragBomb));
     }
 
@@ -111,5 +117,21 @@ public class AbilityScript : MonoBehaviour
         }
     }
 
-    
+    public void gatling(GameObject player){
+        playerMovement playerMovement = player.GetComponent<playerMovement>();
+        playerMovement.currentAbility = "";
+        playerMovement.canShoot = false;
+        StartCoroutine(gatlingShot());
+    }
+
+    IEnumerator gatlingShot(){
+        for (int i = 0; i < 10; i++) {
+            var miniBullet = Instantiate(prefabs.bulletPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+            float spread = UnityEngine.Random.Range(-10.0f, 10.0f); 
+            miniBullet.transform.Rotate(0, 0, spread);
+            miniBullet.name = "miniBullet";
+            miniBullet.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
 }

@@ -14,7 +14,10 @@ public class BulletScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = transform.up * 4f;
-
+        if(name == "miniBullet")
+        {
+            maxHits = 3;
+        }
     }
 
     // Update is called once per frame
