@@ -42,8 +42,8 @@ GameObject:
   - component: {fileID: 439797637935920198}
   - component: {fileID: 6635478634987103637}
   - component: {fileID: 6672896108828600249}
-  - component: {fileID: 9120820684956798300}
   - component: {fileID: 3561993310707591920}
+  - component: {fileID: 6546437823227463588}
   m_Layer: 0
   m_Name: P2_Tank
   m_TagString: Player
@@ -148,25 +148,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &9120820684956798300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6936745492311206717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f2157ad265eebc4f8b5dad0ecfef247, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 1
-  rb: {fileID: 6672896108828600249}
-  bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
-  firePoint: {fileID: 0}
-  canShoot: 1
-  laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
-  currentAbility: 
 --- !u!60 &3561993310707591920
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -232,3 +213,22 @@ PolygonCollider2D:
       - {x: 0.28923178, y: -0.32048154}
       - {x: 0.28341436, y: 0.19283009}
   m_UseDelaunayMesh: 0
+--- !u!114 &6546437823227463588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936745492311206717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbe44dfe0a22b949892a6c4bdd65e7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 1
+  rb: {fileID: 6672896108828600249}
+  bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
+  laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
+  firePoint: {fileID: 3519418820721347717}
+  canShoot: 1
+  currentAbility: 

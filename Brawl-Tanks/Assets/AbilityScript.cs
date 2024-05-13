@@ -12,8 +12,7 @@ public class AbilityScript : MonoBehaviour
 {
     //vsi aktivni abilityji kot observable collection da lak v ability spawningu spremljamo spremembe
     public ObservableCollection<GameObject> spawnedAbilities = new();
-    P1_Movement p1;
-    P2_Movement p2;
+    playerMovement playerMovement;
 
 
     // Start is called before the first frame update
@@ -27,26 +26,14 @@ public class AbilityScript : MonoBehaviour
     }
     public void doSomething(GameObject player, GameObject ability)
     {
-        p1 = player.GetComponent<P1_Movement>();
-        p2 = player.GetComponent<P2_Movement>();
+        playerMovement = player.GetComponent<playerMovement>();
 
-        if(ability.name == "power_ray(Clone)")
-        {
-            if(player.name == "P1_Tank(Clone)")
-            {
-                p1.currentAbility = "ray";
-            }
-            else if(player.name == "P2_Tank(Clone)")
-            {
-                p2.currentAbility = "ray";
-            }
+        if(ability.name == "power_ray(Clone)"){
+            playerMovement.currentAbility = "ray";
         }
-        else if(ability.name == "laser")
-        {
-            //deathRay(player, ability);
-        }
-        //Debug.Log("Player: " + player.name + "Ability" + ability.name);
-        
+        else if(ability.name == "power_shield(Clone)"){
+            playerMovement.currentAbility = "shield";
+        }        
         //ability je bil uničen zato ga odstrani iz seznama aktivnih abilityjev
         spawnedAbilities.Remove(ability);
         Destroy(ability);
@@ -59,6 +46,19 @@ public class AbilityScript : MonoBehaviour
         spawnedAbilities.Add(ability);
     }
 
+    public void selectAbility(GameObject player, string ability){
+        if(ability == "shield"){
+            //shield(player, playerID);
+        }
+        else if(ability == "ray"){
+            ray(player);
+        }
+    }
 
-
+    public void ray(GameObject player){
+        playerMovement playerMovement = player.GetComponent<playerMovement>();
+        playerMovement.currentAbility = "";
+        playerMovement.canShoot = false;
+        Instantiate(playerMovement.laserPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+    }
 }

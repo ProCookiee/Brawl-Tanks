@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8704867194593886273}
   - component: {fileID: 7775841310573745031}
   - component: {fileID: 6764684953273636010}
-  - component: {fileID: 7509129388535819662}
   - component: {fileID: 778483471321338912}
+  - component: {fileID: 2735452390229349465}
   m_Layer: 0
   m_Name: P1_Tank
   m_TagString: Player
@@ -117,25 +117,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7509129388535819662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6425677961234491085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd90e6d1bbfda234d99374b543e9d250, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 0
-  rb: {fileID: 6764684953273636010}
-  bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
-  laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
-  firePoint: {fileID: 0}
-  canShoot: 1
-  currentAbility: 
 --- !u!60 &778483471321338912
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -198,6 +179,25 @@ PolygonCollider2D:
       - {x: 0.29081154, y: -0.29139662}
       - {x: 0.28759527, y: 0.22069788}
   m_UseDelaunayMesh: 0
+--- !u!114 &2735452390229349465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6425677961234491085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbe44dfe0a22b949892a6c4bdd65e7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 0
+  rb: {fileID: 6764684953273636010}
+  bulletPrefab: {fileID: 830858623199247450, guid: 9d6ba410e6a95d64da93d4bf2681f8b9, type: 3}
+  laserPrefab: {fileID: 2928203500801869275, guid: 246449596f3c9324eb5860d58d262b22, type: 3}
+  firePoint: {fileID: 4577669001084278903}
+  canShoot: 1
+  currentAbility: 
 --- !u!1 &8477909607903733049
 GameObject:
   m_ObjectHideFlags: 0

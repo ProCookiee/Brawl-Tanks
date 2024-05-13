@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class P1_Movement : MonoBehaviour
+public class playerMovement : MonoBehaviour
 {
-    public GameManager.PlayerID playerID; // Assign PlayerID in the inspector
-
+    public enum PlayerID { Player1, Player2 }
+    public PlayerID playerID;
+    
     private float speed = 5f;
     private float rotationSpeed = 1f;
     public Rigidbody2D rb;
@@ -20,54 +20,67 @@ public class P1_Movement : MonoBehaviour
 
     public string currentAbility = "";
 
+    private KeyCode forwardKey, backwardKey, leftKey, rightKey, shootKey;
+
     void Start()
     {
+        AssignControls();
         firePoint = transform.Find("Turret");
         bulletCount = 0;
     }
 
-    // Update is called once per frame
+    void AssignControls()
+    {
+        if (playerID == PlayerID.Player1)
+        {
+            forwardKey = KeyCode.W;
+            backwardKey = KeyCode.S;
+            leftKey = KeyCode.A;
+            rightKey = KeyCode.D;
+            shootKey = KeyCode.Q;
+        }
+        else if (playerID == PlayerID.Player2)
+        {
+            forwardKey = KeyCode.UpArrow;
+            backwardKey = KeyCode.DownArrow;
+            leftKey = KeyCode.LeftArrow;
+            rightKey = KeyCode.RightArrow;
+            shootKey = KeyCode.Space;
+        }
+    }
+
     void Update()
     {
         bool isMoving = false;
 
-        if (Input.GetKey(KeyCode.W))
+        
+
+        if (Input.GetKey(forwardKey))
         {
             rb.MovePosition(rb.position + (speed / 100 * (Vector2)transform.up));
             isMoving = true;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(backwardKey))
         {
             rb.MovePosition(rb.position - (speed / 100 * (Vector2)transform.up));
             isMoving = true;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(leftKey))
         {
             rb.MoveRotation(rb.rotation + 5 * rotationSpeed);
             isMoving = false;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(rightKey))
         {
             rb.MoveRotation(rb.rotation - 5 * rotationSpeed);
             isMoving = false;
         }
 
-        if (Input.GetKey(KeyCode.Q) && canShoot)
+        if (Input.GetKey(shootKey) && canShoot)
         {
             Debug.Log(currentAbility);
-            if (currentAbility == "ray")
-            {
-                Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
-                canShoot = false;
-                currentAbility = "";
-                StartCoroutine(ShootCooldown());
-            }
-            else if (currentAbility == "laser")
-            {
-                //deathRay();
-            }
-            else if (currentAbility == "")
+            if (currentAbility == "")
             {
                 Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
                 canShoot = false;
@@ -75,7 +88,15 @@ public class P1_Movement : MonoBehaviour
                 Debug.Log(bulletCount);
                 StartCoroutine(ShootCooldown());
             }
-
+            else
+            {
+                AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
+                if (currentAbility == "ray")
+                {
+                    abilityScript.selectAbility(gameObject, currentAbility);
+                    StartCoroutine(ShootCooldown());
+                }
+            }
         }
 
         if (!isMoving)
@@ -96,21 +117,16 @@ public class P1_Movement : MonoBehaviour
         if (other.gameObject.tag == "Bullet")
         {
             Destroy(gameObject);
-            // Access the GameManager instance and inform that this player is destroyed
-            GameManager.instance.PlayerDestroyed(playerID);
+            GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Ability")
         {
-            //Destroy(other.gameObject);
-            AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>(); // Access from GameManager
+            AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
             abilityScript.doSomething(gameObject, other.gameObject);
         }
     }
-    
-
 }
