@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerMovement : MonoBehaviour
 {
@@ -19,6 +20,13 @@ public class playerMovement : MonoBehaviour
     public string currentAbility = "";
 
     public bool canMove = true;
+    public Queue<string> abilities = new Queue<string>();
+    public GameObject abilityUIPrefab;  // Prefab for the ability icon
+    public Transform abilityUIParent; // Parent object for the ability icons
+    private List<GameObject> abilityIcons = new List<GameObject>();  // List of ability icons
+
+    
+
     Prefabs prefabs;
 
     private KeyCode forwardKey, backwardKey, leftKey, rightKey, shootKey;
@@ -80,8 +88,7 @@ public class playerMovement : MonoBehaviour
 
             if (Input.GetKey(shootKey) && canShoot)
             {
-                Debug.Log(currentAbility);
-                if (currentAbility == "")
+                if (abilities.Count <= 0)
                 {
                     Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
                     canShoot = false;
@@ -91,8 +98,10 @@ public class playerMovement : MonoBehaviour
                 }
                 else
                 {
+                    string nextAbility = abilities.Dequeue();  // Get the next ability
                     AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
-                    abilityScript.selectAbility(gameObject, currentAbility);
+                    abilityScript.selectAbility(gameObject, nextAbility);
+                    UpdateAbilitiesUI();
                     StartCoroutine(ShootCooldown());
                 }
             }
@@ -105,6 +114,57 @@ public class playerMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
+        }
+    }
+
+    void UpdateAbilitiesUI()
+    {
+        // Clear existing icons
+        foreach (GameObject icon in abilityIcons)
+        {
+            Destroy(icon);
+        }
+        abilityIcons.Clear();
+
+        // Set an initial position for the first icon
+        Vector3 iconPositionOffset = new Vector3((-abilities.Count + 1) * 0.125f, 0f, 0); 
+
+        // Create new icons for each ability in the queue
+        foreach (string ability in abilities)
+        {
+            GameObject icon = Instantiate(abilityUIPrefab, abilityUIParent);
+            icon.GetComponent<Image>().sprite = getIcon(ability);
+
+            // Set local position relative to the ability UI parent, adjusting by icon width and a fixed padding
+            icon.transform.localPosition = iconPositionOffset;
+            icon.transform.localScale = Vector3.one; // Ensure the icon's scale is reset to 1
+
+            // Increment the position offset for the next icon
+            iconPositionOffset.x += 0.25f; // Adjust spacing between icons (assuming each icon is about 0.5 units wide)
+
+            abilityIcons.Add(icon);
+        }
+    }
+
+
+    Sprite getIcon(string ability)
+    {
+        switch (ability)
+        {
+            case "shield":
+                return prefabs.ShieldSprite;
+            case "ray":
+                return prefabs.RaySprite;
+            case "frag":
+                return prefabs.FragSprite;
+            case "gatling":
+                return prefabs.GatlingSprite;
+            case "laser":
+                return prefabs.LaserSprite;
+            case "rc":
+                return prefabs.RCSprite;
+            default:
+                return null;
         }
     }
 
@@ -129,6 +189,7 @@ public class playerMovement : MonoBehaviour
         {
             AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
             abilityScript.doSomething(gameObject, other.gameObject);
+            UpdateAbilitiesUI();
         }
     }
 }

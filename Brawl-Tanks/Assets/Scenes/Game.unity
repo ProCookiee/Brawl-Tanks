@@ -692,7 +692,7 @@ MonoBehaviour:
   abilityScript: {fileID: 1255787218}
   prefabSize: 0.08
   minSpawnRate: 3
-  maxSpawnRate: 5
+  maxSpawnRate: 10
   maxAbilities: 6
   abilityPrefabs:
   - {fileID: 6936745492311206717, guid: 07b4f5568b76d744b8afc445d2955208, type: 3}
@@ -730,6 +730,12 @@ MonoBehaviour:
   laserLine: {fileID: 2928203500801869275, guid: f18cd9ce92fd3454f9df40541bf3efd5, type: 3}
   shieldPrefab: {fileID: 5188382780328982113, guid: de1078659e18fc345a7518c717c65031, type: 3}
   fragmentPrefab: {fileID: 3044281992616833678, guid: ee245c08c64d1274e849f5fad826f905, type: 3}
+  ShieldSprite: {fileID: 8900530272691449024, guid: 862125ba8c9a2804097b95f7447d0ca7, type: 3}
+  RaySprite: {fileID: -7871342517685787905, guid: 26af7b3fe00d4ce47bd720bea49aa28d, type: 3}
+  FragSprite: {fileID: -6238778554256531416, guid: 6315669542ba674439a3c698ec051828, type: 3}
+  GatlingSprite: {fileID: -2660891402625428762, guid: 7a1e69ae86a334d4298cd727989ac5d5, type: 3}
+  RCSprite: {fileID: 4411180060991924037, guid: 4909f1e441c20a04bbd21de54424a90a, type: 3}
+  LaserSprite: {fileID: -2470753719702770908, guid: 29041bf8c6e6dbf468c5917a5d67ac37, type: 3}
 --- !u!1 &1287959992
 GameObject:
   m_ObjectHideFlags: 0
