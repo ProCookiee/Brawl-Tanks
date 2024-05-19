@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
         P1ScoreText.text = "P1: " + GameState.P1Score;
         P2ScoreText.text = "P2: " + GameState.P2Score;
 
+        PlayerPrefs.SetInt("DestroyedPlayerID", 0);
+
         // Zgeneriram mapo
         MapGenerator.GenerateMap(wallPrefab);
     }
@@ -79,18 +81,28 @@ public class GameManager : MonoBehaviour
     // Method to call when a player is destroyed
     public void PlayerDestroyed(PlayerID playerID)
     {
+        int destroyedPlayerID = PlayerPrefs.GetInt("DestroyedPlayerID");
+
         // Set the corresponding player destroyed state to true
         if (playerID == PlayerID.Player1)
         {
             GameState.P2Score++;
             player1Destroyed = true;
-            PlayerPrefs.SetInt("DestroyedPlayerID", 1); // Player 1 was destroyed
+
+            if (destroyedPlayerID == 2)
+                PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
+            else
+                PlayerPrefs.SetInt("DestroyedPlayerID", 1); // Player 1 was destroyed
         }
         else if (playerID == PlayerID.Player2)
         {
             GameState.P1Score++;
             player2Destroyed = true;
-            PlayerPrefs.SetInt("DestroyedPlayerID", 2); // Player 2 was destroyed
+
+            if (destroyedPlayerID == 1)
+                PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
+            else
+                PlayerPrefs.SetInt("DestroyedPlayerID", 2); // Player 2 was destroyed
         }
     }
 
