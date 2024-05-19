@@ -9,7 +9,6 @@ public class Prefabs : MonoBehaviour
     public GameObject laserLine;
     public GameObject shieldPrefab;
     public GameObject fragmentPrefab;
-    public GameObject rcPrefab;
 
     public Sprite ShieldSprite;
     public Sprite RaySprite;

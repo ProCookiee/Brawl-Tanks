@@ -60,22 +60,12 @@ public class GameManager : MonoBehaviour
     {
         if (player1Destroyed || player2Destroyed)
         {
-            StartCoroutine(LoadNextScene());
             // Trigger game over
-            //SceneManager.LoadScene("GameOver");
+            SceneManager.LoadScene("GameOver");
             P1ScoreText.text = "P1: " + GameState.P1Score;
             P2ScoreText.text = "P2: " + GameState.P2Score;
         }
     }
-    // Coroutine to load the next scene
-    IEnumerator LoadNextScene()
-    {
-        // Wait for 5 seconds
-        yield return new WaitForSeconds(2);
-        // Load the next scene
-        SceneManager.LoadScene("GameOver");
-    }
-
     // Method to call when a player is destroyed
     public void PlayerDestroyed(PlayerID playerID)
     {
