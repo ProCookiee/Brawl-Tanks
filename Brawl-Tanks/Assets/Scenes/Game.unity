@@ -695,12 +695,7 @@ MonoBehaviour:
   maxSpawnRate: 10
   maxAbilities: 6
   abilityPrefabs:
-  - {fileID: 6936745492311206717, guid: 07b4f5568b76d744b8afc445d2955208, type: 3}
-  - {fileID: 6936745492311206717, guid: 73de36f860a2b804da7aebc2a3f15f47, type: 3}
-  - {fileID: 6936745492311206717, guid: c4456c2adc8b4e7419589589a5b08992, type: 3}
-  - {fileID: 6936745492311206717, guid: 13331ad31ac8c9840b3d2ce6f4b3c5a5, type: 3}
   - {fileID: 6936745492311206717, guid: 5ed5e9bbad3564e4898129e14fbc5a7f, type: 3}
-  - {fileID: 6936745492311206717, guid: 2f76cabf98312d84e82d7b1845d604d5, type: 3}
 --- !u!114 &1255787218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,6 +725,7 @@ MonoBehaviour:
   laserLine: {fileID: 2928203500801869275, guid: f18cd9ce92fd3454f9df40541bf3efd5, type: 3}
   shieldPrefab: {fileID: 5188382780328982113, guid: de1078659e18fc345a7518c717c65031, type: 3}
   fragmentPrefab: {fileID: 3044281992616833678, guid: ee245c08c64d1274e849f5fad826f905, type: 3}
+  rcPrefab: {fileID: 648938889208800898, guid: d6f353fea78ea014bb2e12575706c1c5, type: 3}
   ShieldSprite: {fileID: 8900530272691449024, guid: 862125ba8c9a2804097b95f7447d0ca7, type: 3}
   RaySprite: {fileID: -7871342517685787905, guid: 26af7b3fe00d4ce47bd720bea49aa28d, type: 3}
   FragSprite: {fileID: -6238778554256531416, guid: 6315669542ba674439a3c698ec051828, type: 3}
