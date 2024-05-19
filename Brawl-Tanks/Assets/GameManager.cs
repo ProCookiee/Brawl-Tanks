@@ -19,10 +19,13 @@ public class GameManager : MonoBehaviour
     //public TextMeshProUGUI gamemodeText;
     public TextMeshProUGUI P1ScoreText;
     public TextMeshProUGUI P2ScoreText;
+    public TextMeshProUGUI MapResetTimer;
 
     public GameObject player1;
     public GameObject player2;
     public GameObject wallPrefab;
+
+    int resetTimer = 15;
 
     // Ensure only one instance of GameManager exists
     private void Awake()
@@ -51,8 +54,13 @@ public class GameManager : MonoBehaviour
         P1ScoreText.text = "P1: " + GameState.P1Score;
         P2ScoreText.text = "P2: " + GameState.P2Score;
 
+        PlayerPrefs.SetInt("DestroyedPlayerID", 0);
+
         // Zgeneriram mapo
         MapGenerator.GenerateMap(wallPrefab);
+
+        // Start the coroutine to regenerate the map every 15 seconds
+        StartCoroutine(RegenerateMapPeriodically());
     }
 
     // Update is called once per frame
@@ -76,21 +84,48 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
 
+    IEnumerator RegenerateMapPeriodically()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+
+            if (resetTimer == 1)
+            {
+                MapGenerator.RegenerateMap(wallPrefab);
+                resetTimer = 16;
+            }
+
+            resetTimer--;
+            MapResetTimer.text = "Map reset in " + resetTimer + "s";
+        }
+    }
+
     // Method to call when a player is destroyed
     public void PlayerDestroyed(PlayerID playerID)
     {
+        int destroyedPlayerID = PlayerPrefs.GetInt("DestroyedPlayerID");
+
         // Set the corresponding player destroyed state to true
         if (playerID == PlayerID.Player1)
         {
             GameState.P2Score++;
             player1Destroyed = true;
-            PlayerPrefs.SetInt("DestroyedPlayerID", 1); // Player 1 was destroyed
+
+            if (destroyedPlayerID == 2)
+                PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
+            else
+                PlayerPrefs.SetInt("DestroyedPlayerID", 1); // Player 1 was destroyed
         }
         else if (playerID == PlayerID.Player2)
         {
             GameState.P1Score++;
             player2Destroyed = true;
-            PlayerPrefs.SetInt("DestroyedPlayerID", 2); // Player 2 was destroyed
+
+            if (destroyedPlayerID == 1)
+                PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
+            else
+                PlayerPrefs.SetInt("DestroyedPlayerID", 2); // Player 2 was destroyed
         }
     }
 

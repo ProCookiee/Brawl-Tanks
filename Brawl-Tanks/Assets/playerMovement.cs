@@ -25,6 +25,8 @@ public class playerMovement : MonoBehaviour
     public Transform abilityUIParent; // Parent object for the ability icons
     private List<GameObject> abilityIcons = new List<GameObject>();  // List of ability icons
 
+    private int maxAbilities = 5;
+
     
 
     Prefabs prefabs;
@@ -185,7 +187,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Ability")
+        if (other.gameObject.tag == "Ability" && abilities.Count < maxAbilities)
         {
             AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
             abilityScript.doSomething(gameObject, other.gameObject);

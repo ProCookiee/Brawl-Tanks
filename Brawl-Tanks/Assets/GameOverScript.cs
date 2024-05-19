@@ -41,11 +41,14 @@ public class GameOverScript : MonoBehaviour
             GameOver = true;
             mainMenuButton.interactable = true;
             mainMenuButtonObject.SetActive(true);
-            if(GameState.P1Score == GameState.goal){
-            playerDestroyedText.text = "Player 1 wins!";
-            } else if(GameState.P2Score == GameState.goal){
-            playerDestroyedText.text = "Player 2 wins!";
-            }
+
+            if (GameState.P1Score == GameState.goal && GameState.P2Score == GameState.goal)
+                playerDestroyedText.text = "Draw!";
+            else if (GameState.P1Score == GameState.goal)
+                playerDestroyedText.text = "Player 1 wins!";
+            else if (GameState.P2Score == GameState.goal)
+                playerDestroyedText.text = "Player 2 wins!";
+
             GameState.P1Score = 0;
             GameState.P2Score = 0;
         }
@@ -53,7 +56,11 @@ public class GameOverScript : MonoBehaviour
         // Start the coroutine to load the main menu scene after 5 seconds
         if(!GameOver){
             StartCoroutine(LoadMainMenuAfterDelay(2f));
-            playerDestroyedText.text = "Player " + destroyedPlayerID + " was destroyed.";
+
+            if (destroyedPlayerID == 3)
+                playerDestroyedText.text = "Both players were destroyed.";
+            else
+                playerDestroyedText.text = "Player " + destroyedPlayerID + " was destroyed.";
         }
         
     }

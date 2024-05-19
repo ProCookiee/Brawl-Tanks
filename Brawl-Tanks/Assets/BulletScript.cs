@@ -8,6 +8,8 @@ public class BulletScript : MonoBehaviour
     int hits = 0;
     int maxHits = 10;
 
+    public float creationTime;
+
     public ParticleSystem bulletExplosion;
     public AudioSource bulletBounceSound;
     void Start()
@@ -18,6 +20,8 @@ public class BulletScript : MonoBehaviour
         {
             maxHits = 3;
         }
+
+        creationTime = Time.time;
     }
 
     // Update is called once per frame

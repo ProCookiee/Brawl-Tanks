@@ -30,9 +30,13 @@ public class ShieldScript : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.tag == "Bullet"){
-            Destroy(other.gameObject);
-            Destroy(gameObject);
+        if (other.gameObject.tag == "Bullet") {
+            BulletScript bullet = other.gameObject.GetComponent<BulletScript>();
+            if (bullet != null && Time.time - bullet.creationTime > 0.1f)
+            {
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }
