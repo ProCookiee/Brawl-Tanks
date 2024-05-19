@@ -141,6 +141,7 @@ public class AbilityScript : MonoBehaviour
         yield return new WaitForSeconds(1);
         for (int i = 0; i < 18; i++)
         {
+            if(fragBomb == null) break;
             var bullet = Instantiate(prefabs.fragmentPrefab, fragBomb.transform.position, Quaternion.identity);
             bullet.transform.Rotate(0, 0, 20 * i);
             bullet.GetComponent<Rigidbody2D>().AddForce(bullet.transform.up * 10f, ForceMode2D.Impulse);

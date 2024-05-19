@@ -10,7 +10,7 @@ public class RocketController : MonoBehaviour
     private float maxSpeed = 5.0f;
     private float drag = 1.0f;
     private float initialSpeed = 1.0f;
-    private float bounceBackDistance = 0.2f;
+    //private float bounceBackDistance = 0.2f;
     private float rotationOffset = 180f;
     public playerMovement.PlayerID playerID;
     public Rigidbody2D rigidBody2;
