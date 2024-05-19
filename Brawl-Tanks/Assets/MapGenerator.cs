@@ -172,6 +172,25 @@ public static class MapGenerator
         }
     }
 
+    public static void RegenerateMap(GameObject wallPrefab)
+    {
+        // Find all GameObjects in the scene
+        GameObject[] allObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+
+        // Iterate through all found GameObjects
+        foreach (GameObject obj in allObjects)
+        {
+            // Check if the object's name is "Wall(Clone)"
+            if (obj.name == "Wall(Clone)")
+            {
+                // Destroy the object
+                UnityEngine.Object.Destroy(obj);
+            }
+        }
+
+        GenerateMap(wallPrefab);
+    }
+
     public static float ConvertX(float x)
     {
         return x * 2 - 8f;

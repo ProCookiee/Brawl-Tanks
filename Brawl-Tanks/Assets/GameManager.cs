@@ -19,10 +19,13 @@ public class GameManager : MonoBehaviour
     //public TextMeshProUGUI gamemodeText;
     public TextMeshProUGUI P1ScoreText;
     public TextMeshProUGUI P2ScoreText;
+    public TextMeshProUGUI MapResetTimer;
 
     public GameObject player1;
     public GameObject player2;
     public GameObject wallPrefab;
+
+    int resetTimer = 15;
 
     // Ensure only one instance of GameManager exists
     private void Awake()
@@ -55,6 +58,9 @@ public class GameManager : MonoBehaviour
 
         // Zgeneriram mapo
         MapGenerator.GenerateMap(wallPrefab);
+
+        // Start the coroutine to regenerate the map every 15 seconds
+        StartCoroutine(RegenerateMapPeriodically());
     }
 
     // Update is called once per frame
@@ -76,6 +82,23 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         // Load the next scene
         SceneManager.LoadScene("GameOver");
+    }
+
+    IEnumerator RegenerateMapPeriodically()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+
+            if (resetTimer == 1)
+            {
+                MapGenerator.RegenerateMap(wallPrefab);
+                resetTimer = 16;
+            }
+
+            resetTimer--;
+            MapResetTimer.text = "Map reset in " + resetTimer + "s";
+        }
     }
 
     // Method to call when a player is destroyed
