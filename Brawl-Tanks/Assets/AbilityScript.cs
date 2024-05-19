@@ -92,7 +92,7 @@ public class AbilityScript : MonoBehaviour
         }
         else if (ability == "rc")
         {
-            RcRocket(player);
+            //rc(player);
         }
     }
 
@@ -169,30 +169,4 @@ public class AbilityScript : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
     }
-    public void RcRocket(GameObject player)
-    {
-        playerMovement playerMovement = player.GetComponent<playerMovement>();
-        playerMovement.currentAbility = "";
-        playerMovement.canShoot = false;
-        playerMovement.canMove = false;
-        var rocket = Instantiate(prefabs.rcPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
-        rocket.transform.localScale = new Vector3(0.08f, 0.08f, 1);
-        RocketController rocketController = rocket.GetComponent<RocketController>();
-        if (rocketController != null)
-        {
-            rocketController.playerID = playerMovement.playerID;
-            rocketController.enabled = true; // Omogoči logiko rakete
-            rocketController.rigidBody2 = rocket.GetComponent<Rigidbody2D>();
-        }
-        StartCoroutine(DestroyRocketAndEnableMovement(rocket, playerMovement));
-
-    }
-    private IEnumerator DestroyRocketAndEnableMovement(GameObject rocket, playerMovement playerMovement)
-    {
-        //20 sekund traja, da se raketa uniči če ne zadane kaj
-        yield return new WaitForSeconds(20);
-        Destroy(rocket);
-        playerMovement.canMove = true;
-    }
-    
 }
