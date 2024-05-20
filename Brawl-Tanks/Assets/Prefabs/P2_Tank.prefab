@@ -126,7 +126,7 @@ Transform:
   m_GameObject: {fileID: 6533584918558874297}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.45, z: 0}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -331,6 +331,7 @@ MonoBehaviour:
   rb: {fileID: 6672896108828600249}
   firePoint: {fileID: 3519418820721347717}
   canShoot: 1
+  bulletCount: 0
   currentAbility: 
   canMove: 1
   abilityUIPrefab: {fileID: 6447854844329108103, guid: 80447afd2555b47439cbd7796ffb9f36, type: 3}

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject player2;
     public GameObject wallPrefab;
 
+    int currentModifier;
     int resetTimer = 15;
 
     // Ensure only one instance of GameManager exists
@@ -59,8 +60,16 @@ public class GameManager : MonoBehaviour
         // Zgeneriram mapo
         MapGenerator.GenerateMap(wallPrefab);
 
+        currentModifier = Random.Range(0,4);
         // Start the coroutine to regenerate the map every 15 seconds
-        StartCoroutine(RegenerateMapPeriodically());
+        Debug.Log("current modifier " + currentModifier);
+        if(currentModifier == 3){
+            StartCoroutine(RegenerateMapPeriodically());
+        }
+        else{
+            MapResetTimer.text = "";
+        }
+        
     }
 
     // Update is called once per frame

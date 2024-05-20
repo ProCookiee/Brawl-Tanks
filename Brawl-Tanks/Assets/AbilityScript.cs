@@ -12,7 +12,6 @@ public class AbilityScript : MonoBehaviour
 {
     //vsi aktivni abilityji kot observable collection da lak v ability spawningu spremljamo spremembe
     public ObservableCollection<GameObject> spawnedAbilities = new();
-    playerMovement playerMovement;
 
     Prefabs prefabs;
 
