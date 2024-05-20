@@ -41,22 +41,29 @@ public class BulletScript : MonoBehaviour
             }
             else
             {
+                GameObject player;
+                playerMovement playerMovement;
+
+                if(name == "P1_Tank_bullet"){
+                    player = GameObject.Find("P1_Tank");
+                }
+                else{
+                    player = GameObject.Find("P2_Tank");
+                }
+                playerMovement = player.GetComponent<playerMovement>();
+                if(Time.time - creationTime < 0.05f){
+                    Debug.Log("Bullet destroyed before hitting anything");
+                    Debug.Log(Time.time - creationTime);
+                    Explode();
+                    Destroy(gameObject);
+                    playerMovement.bulletCount--;
+                }
                 hits++;
 
                 if (hits >= maxHits)
                 {
                     Explode();
-                    GameObject player;
-                    playerMovement playerMovement;
-
-                    if(name == "P1_Tank_bullet"){
-                        player = GameObject.Find("P1_Tank");
-                    }
-                    else{
-                        player = GameObject.Find("P1_Tank");
-                    }
-
-                    playerMovement = player.GetComponent<playerMovement>();
+                    
                     playerMovement.bulletCount--;
                     Destroy(gameObject);
                 }

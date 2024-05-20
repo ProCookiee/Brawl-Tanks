@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2623603030277210286}
   m_Layer: 0
   m_Name: laserStart
-  m_TagString: Bullet
+  m_TagString: DeathRay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 6128836411250834192}
   m_Layer: 3
   m_Name: Square
-  m_TagString: Bullet
+  m_TagString: DeathRay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,7 +72,7 @@ Transform:
   m_GameObject: {fileID: 4684094051068103774}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 12.62, z: 0}
+  m_LocalPosition: {x: 0, y: 12.53, z: 0}
   m_LocalScale: {x: 0.1, y: 25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

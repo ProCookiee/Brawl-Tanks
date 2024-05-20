@@ -30,6 +30,7 @@ public class playerMovement : MonoBehaviour
     private int maxBullets = 7;
 
     Prefabs prefabs;
+    RocketController rocketController;
 
     private KeyCode forwardKey, backwardKey, leftKey, rightKey, shootKey;
 
@@ -194,7 +195,20 @@ public class playerMovement : MonoBehaviour
                 GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
                 Destroy(other.gameObject);
                 bulletCount--;
-            } 
+            }
+        }
+        if(other.gameObject.tag == "DeathRay")
+        {
+            Destroy(gameObject);
+            GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
+        }
+        if(other.gameObject.tag == "rcRocket"){
+            rocketController = other.gameObject.GetComponent<RocketController>();
+            if(Time.time - rocketController.creationTime > 0.02f){
+                Destroy(gameObject);
+                GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
+            }
+            
         }
     }
 

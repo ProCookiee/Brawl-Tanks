@@ -82,8 +82,6 @@ public class RocketController : MonoBehaviour
         {
             if(Time.time - creationTime > 0.02f){
                 Destroy(gameObject);
-                GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
-                Destroy(collision.gameObject);
             }
         }
     }
