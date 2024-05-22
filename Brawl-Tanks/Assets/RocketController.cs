@@ -15,12 +15,14 @@ public class RocketController : MonoBehaviour
     public playerMovement.PlayerID playerID;
     public Rigidbody2D rigidBody2;
     private KeyCode leftKey, rightKey;
+    public float creationTime;
 
     void Start()
     {
         AssignControls();
         rigidBody2.drag = drag;
         rigidBody2.velocity = transform.up * initialSpeed;
+        creationTime = Time.time;
     }
     void AssignControls()
     {
@@ -78,7 +80,9 @@ public class RocketController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            if(Time.time - creationTime > 0.02f){
+                Destroy(gameObject);
+            }
         }
     }
 

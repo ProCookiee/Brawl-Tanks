@@ -15,7 +15,7 @@ public class playerMovement : MonoBehaviour
     public Transform firePoint;
 
     public bool canShoot = true;
-    private int bulletCount;
+    public int bulletCount;
 
     public string currentAbility = "";
 
@@ -27,9 +27,10 @@ public class playerMovement : MonoBehaviour
 
     private int maxAbilities = 5;
 
-    
+    private int maxBullets = 7;
 
     Prefabs prefabs;
+    RocketController rocketController;
 
     private KeyCode forwardKey, backwardKey, leftKey, rightKey, shootKey;
 
@@ -92,11 +93,16 @@ public class playerMovement : MonoBehaviour
             {
                 if (abilities.Count <= 0)
                 {
-                    Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
-                    canShoot = false;
-                    bulletCount++;
-                    Debug.Log(bulletCount);
-                    StartCoroutine(ShootCooldown());
+                    if(bulletCount < maxBullets){
+                        var bullet = Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
+                        bullet.name = name + "_bullet";
+                        canShoot = false;
+                        bulletCount++;
+                        Debug.Log(bulletCount);
+                        StartCoroutine(ShootCooldown());
+                    }
+                    
+                    
                 }
                 else
                 {
@@ -180,8 +186,29 @@ public class playerMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "Bullet")
         {
+            BulletScript bullet = other.gameObject.GetComponent<BulletScript>();
+            Debug.Log(bullet.creationTime);
+            Debug.Log(Time.time);
+            Debug.Log(Time.time - bullet.creationTime);
+            if(Time.time - bullet.creationTime > 0.02f){
+                Destroy(gameObject);
+                GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
+                Destroy(other.gameObject);
+                bulletCount--;
+            }
+        }
+        if(other.gameObject.tag == "DeathRay")
+        {
             Destroy(gameObject);
             GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
+        }
+        if(other.gameObject.tag == "rcRocket"){
+            rocketController = other.gameObject.GetComponent<RocketController>();
+            if(Time.time - rocketController.creationTime > 0.02f){
+                Destroy(gameObject);
+                GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
+            }
+            
         }
     }
 

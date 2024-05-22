@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 38390983138911473}
   m_Layer: 3
   m_Name: rocket_p1
-  m_TagString: Bullet
+  m_TagString: rcRocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   bulletBounceSound: {fileID: 38390983138911473}
   playerID: 0
   rigidBody2: {fileID: 0}
+  creationTime: 0
 --- !u!70 &8630492109899267472
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - Ability
   - Shield
+  - DeathRay
+  - rcRocket
   layers:
   - Default
   - TransparentFX

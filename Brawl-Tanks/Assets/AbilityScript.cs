@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.ObjectModel;
@@ -12,7 +11,6 @@ public class AbilityScript : MonoBehaviour
 {
     //vsi aktivni abilityji kot observable collection da lak v ability spawningu spremljamo spremembe
     public ObservableCollection<GameObject> spawnedAbilities = new();
-    playerMovement playerMovement;
 
     Prefabs prefabs;
 

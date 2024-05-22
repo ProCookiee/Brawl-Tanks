@@ -267,8 +267,8 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0.1558361, y: 0.22140193}
       - {x: 0.033583164, y: 0.19641328}
-      - {x: 0.03498268, y: 0.32853615}
-      - {x: -0.034744263, y: 0.33042705}
+      - {x: 0.037720203, y: 0.3504375}
+      - {x: -0.034744263, y: 0.35232842}
       - {x: -0.037623882, y: 0.16455007}
       - {x: -0.15478706, y: 0.22436666}
       - {x: -0.29124165, y: 0.22494006}
@@ -297,14 +297,11 @@ MonoBehaviour:
   rb: {fileID: 6764684953273636010}
   firePoint: {fileID: 4577669001084278903}
   canShoot: 1
+  bulletCount: 0
   currentAbility: 
   canMove: 1
   abilityUIPrefab: {fileID: 6447854844329108103, guid: 80447afd2555b47439cbd7796ffb9f36, type: 3}
   abilityUIParent: {fileID: 7456566711073018939}
-  ShieldSprite: {fileID: 8900530272691449024, guid: 862125ba8c9a2804097b95f7447d0ca7, type: 3}
-  RaySprite: {fileID: -7871342517685787905, guid: 26af7b3fe00d4ce47bd720bea49aa28d, type: 3}
-  FragSprite: {fileID: -6238778554256531416, guid: 6315669542ba674439a3c698ec051828, type: 3}
-  GatlingSprite: {fileID: -2660891402625428762, guid: 7a1e69ae86a334d4298cd727989ac5d5, type: 3}
 --- !u!1 &8477909607903733049
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +327,7 @@ Transform:
   m_GameObject: {fileID: 8477909607903733049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.45, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3434, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
