@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject player2;
     public GameObject wallPrefab;
 
-    int currentModifier;
+    public int currentModifier;
     int resetTimer = 15;
 
     // Ensure only one instance of GameManager exists
@@ -61,10 +61,14 @@ public class GameManager : MonoBehaviour
         MapGenerator.GenerateMap(wallPrefab);
 
         currentModifier = Random.Range(0,4);
+        currentModifier = 1;
         // Start the coroutine to regenerate the map every 15 seconds
         Debug.Log("current modifier " + currentModifier);
-        if(currentModifier == 3){
+        if(currentModifier == 0){
             StartCoroutine(RegenerateMapPeriodically());
+        }
+        else if(currentModifier == 1){
+            MapResetTimer.text = "Super speed!";
         }
         else{
             MapResetTimer.text = "";

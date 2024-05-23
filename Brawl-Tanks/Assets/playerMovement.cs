@@ -34,6 +34,8 @@ public class playerMovement : MonoBehaviour
     Prefabs prefabs;
     RocketController rocketController;
 
+    GameManager gameManager;
+
     private KeyCode forwardKey, backwardKey, leftKey, rightKey, shootKey;
 
     void Start()
@@ -42,6 +44,12 @@ public class playerMovement : MonoBehaviour
         firePoint = transform.Find("Turret");
         bulletCount = 0;
         prefabs = GameObject.Find("GameManager").GetComponent<Prefabs>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if(gameManager.currentModifier == 1)
+        {
+            speed = speed*1.6f;
+            rotationSpeed = rotationSpeed*1.2f;
+        }
     }
 
     void AssignControls()
