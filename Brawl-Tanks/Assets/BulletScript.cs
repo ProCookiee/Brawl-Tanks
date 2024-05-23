@@ -28,7 +28,7 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // Destroy the bullet if it goes off screen
     }
 
     private void OnCollisionEnter2D(Collision2D other)

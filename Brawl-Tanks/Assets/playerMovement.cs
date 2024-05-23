@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playerMovement : MonoBehaviour
 {
@@ -118,9 +119,9 @@ public class playerMovement : MonoBehaviour
 
             if (Input.GetKey(shootKey) && canShoot)
             {
-                if (abilities.Count <= 0)
+                if (abilities.Count <= 0 || (SceneManager.GetActiveScene().name == "Survival"))
                 {
-                    if (bulletCount < maxBullets)
+                    if (bulletCount < maxBullets || (SceneManager.GetActiveScene().name == "Survival"))
                     {
                         var bullet = Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
                         bullet.name = name + "_bullet";
