@@ -13,9 +13,9 @@ public class AbilitiesSpawning : MonoBehaviour
     public AbilityScript abilityScript;
 
     public float prefabSize = 0.08f;
-    public float minSpawnRate = 3.0f;
+    public float minSpawnRate = 5.0f;
     public float maxSpawnRate = 15.0f;
-    public int maxAbilities = 6;
+    public int maxAbilities = 4;
     public List<GameObject> abilityPrefabs;
     
 
@@ -25,12 +25,20 @@ public class AbilitiesSpawning : MonoBehaviour
     //število trenutno spawnanih abilityjev
     private int currentAbilityCount = 0;
 
+    GameManager gameManager;
+
     void Start()
     {
         // Set the initial spawn time
         nextSpawnTime = Time.time + Random.Range(minSpawnRate, maxSpawnRate);
         // Subscribe to the CollectionChanged event
         abilityScript.spawnedAbilities.CollectionChanged += SpawnedAbilities_CollectionChanged;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if(gameManager.currentModifier == 2)
+        {
+            maxSpawnRate *= 0.5f;
+            minSpawnRate *= 0.5f;
+        }
     }
 
     // to je listener lista ki je v AbilityScript.cs, ko shranjuje aktivne abilityje
@@ -55,12 +63,20 @@ public class AbilitiesSpawning : MonoBehaviour
                 busyLocations.Remove(oldItem.transform.position);
             }
         }
-        Debug.Log("Current ability count: " + currentAbilityCount);
+        Debug.Log("Current ability count: " + currentAbilityCount + " / " + maxAbilities);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(gameManager.currentModifier == 2)
+        {
+            maxAbilities = 8;
+        }
+        else
+        {
+            maxAbilities = 4;
+        }
         // Check if it's time to spawn a new ability
         if (Time.time >= nextSpawnTime && currentAbilityCount < maxAbilities)
         {

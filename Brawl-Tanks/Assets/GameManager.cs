@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         MapGenerator.GenerateMap(wallPrefab);
 
         currentModifier = Random.Range(0,4);
-        currentModifier = 1;
+        //currentModifier = 2;
         // Start the coroutine to regenerate the map every 15 seconds
         Debug.Log("current modifier " + currentModifier);
         if(currentModifier == 0){
@@ -69,6 +69,9 @@ public class GameManager : MonoBehaviour
         }
         else if(currentModifier == 1){
             MapResetTimer.text = "Super speed!";
+        }
+        else if(currentModifier == 2){
+            MapResetTimer.text = "Power Madness!";
         }
         else{
             MapResetTimer.text = "";
