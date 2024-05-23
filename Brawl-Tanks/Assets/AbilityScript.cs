@@ -122,6 +122,7 @@ public class AbilityScript : MonoBehaviour
         playerMovement.canShoot = false;
         var newShield = Instantiate(prefabs.shieldPrefab, player.transform.position, player.transform.rotation);
         newShield.name = player.name + "_Shield";
+        playerMovement.shieldActive = true;
     }
 
     public void frag(GameObject player)

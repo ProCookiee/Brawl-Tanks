@@ -29,6 +29,8 @@ public class playerMovement : MonoBehaviour
 
     private int maxBullets = 7;
 
+    public bool shieldActive = false;
+
     Prefabs prefabs;
     RocketController rocketController;
 
@@ -93,7 +95,8 @@ public class playerMovement : MonoBehaviour
             {
                 if (abilities.Count <= 0)
                 {
-                    if(bulletCount < maxBullets){
+                    if (bulletCount < maxBullets)
+                    {
                         var bullet = Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
                         bullet.name = name + "_bullet";
                         canShoot = false;
@@ -101,16 +104,30 @@ public class playerMovement : MonoBehaviour
                         Debug.Log(bulletCount);
                         StartCoroutine(ShootCooldown());
                     }
-                    
-                    
                 }
                 else
                 {
                     string nextAbility = abilities.Dequeue();  // Get the next ability
-                    AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
-                    abilityScript.selectAbility(gameObject, nextAbility);
-                    UpdateAbilitiesUI();
-                    StartCoroutine(ShootCooldown());
+                    if (shieldActive && nextAbility == "shield")
+                    {
+                        abilities.Enqueue(nextAbility);
+                        Debug.Log("Shield already active");
+                    }
+                    else
+                    {
+                        AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
+                        abilityScript.selectAbility(gameObject, nextAbility);
+                        UpdateAbilitiesUI();
+                        if(nextAbility == "gatling")
+                        {
+                            StartCoroutine(GattlingCooldown());
+                        }
+                        else{
+                            StartCoroutine(ShootCooldown());
+                        }
+                        
+                    }
+
                 }
             }
         }
@@ -135,7 +152,7 @@ public class playerMovement : MonoBehaviour
         abilityIcons.Clear();
 
         // Set an initial position for the first icon
-        Vector3 iconPositionOffset = new Vector3((-abilities.Count + 1) * 0.125f, 0f, 0); 
+        Vector3 iconPositionOffset = new Vector3((-abilities.Count + 1) * 0.125f, 0f, 0);
 
         // Create new icons for each ability in the queue
         foreach (string ability in abilities)
@@ -182,6 +199,12 @@ public class playerMovement : MonoBehaviour
         canShoot = true;
     }
 
+    IEnumerator GattlingCooldown()
+    {
+        yield return new WaitForSeconds(1.2f);
+        canShoot = true;
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Bullet")
@@ -190,25 +213,28 @@ public class playerMovement : MonoBehaviour
             Debug.Log(bullet.creationTime);
             Debug.Log(Time.time);
             Debug.Log(Time.time - bullet.creationTime);
-            if(Time.time - bullet.creationTime > 0.02f){
+            if (Time.time - bullet.creationTime > 0.02f)
+            {
                 Destroy(gameObject);
                 GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
                 Destroy(other.gameObject);
                 bulletCount--;
             }
         }
-        if(other.gameObject.tag == "DeathRay")
+        if (other.gameObject.tag == "DeathRay")
         {
             Destroy(gameObject);
             GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
         }
-        if(other.gameObject.tag == "rcRocket"){
+        if (other.gameObject.tag == "rcRocket")
+        {
             rocketController = other.gameObject.GetComponent<RocketController>();
-            if(Time.time - rocketController.creationTime > 0.02f){
+            if (Time.time - rocketController.creationTime > 0.02f)
+            {
                 Destroy(gameObject);
                 GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
             }
-            
+
         }
     }
 

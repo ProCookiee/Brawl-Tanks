@@ -17,7 +17,7 @@ public class BulletScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = transform.up * 4f;
-        if(name == "miniBullet")
+        if (name == "miniBullet")
         {
             maxHits = 3;
         }
@@ -28,7 +28,7 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -44,33 +44,69 @@ public class BulletScript : MonoBehaviour
                 GameObject player;
                 playerMovement playerMovement;
 
-                if(name == "P1_Tank_bullet"){
+                if (name == "P1_Tank_bullet")
+                {
                     player = GameObject.Find("P1_Tank");
                 }
-                else{
-                    player = GameObject.Find("P2_Tank");
-                }
-                playerMovement = player.GetComponent<playerMovement>();
-                if(Time.time - creationTime < 0.05f){
-                    Debug.Log("Bullet destroyed before hitting anything");
-                    Debug.Log(Time.time - creationTime);
-                    Explode();
-                    Destroy(gameObject);
-                    playerMovement.bulletCount--;
-                }
-                hits++;
-
-                if (hits >= maxHits)
+                else if (name == "P2_Tank_bullet")
                 {
-                    Explode();
-                    
-                    playerMovement.bulletCount--;
-                    Destroy(gameObject);
+                    player = GameObject.Find("P2_Tank");
                 }
                 else
                 {
-                    Explode();
+                    player = null;
                 }
+                if (player == null)
+                {
+                    //playerMovement = player.GetComponent<playerMovement>();
+                    if (Time.time - creationTime < 0.05f)
+                    {
+                        Debug.Log("Bullet destroyed before hitting anything");
+                        Debug.Log(Time.time - creationTime);
+                        Explode();
+                        Destroy(gameObject);
+                        //playerMovement.bulletCount--;
+                    }
+                    hits++;
+
+                    if (hits >= maxHits)
+                    {
+                        Explode();
+
+                        //playerMovement.bulletCount--;
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Explode();
+                    }
+                }
+                else
+                {
+                    playerMovement = player.GetComponent<playerMovement>();
+                    if (Time.time - creationTime < 0.05f)
+                    {
+                        Debug.Log("Bullet destroyed before hitting anything");
+                        Debug.Log(Time.time - creationTime);
+                        Explode();
+                        Destroy(gameObject);
+                        playerMovement.bulletCount--;
+                    }
+                    hits++;
+
+                    if (hits >= maxHits)
+                    {
+                        Explode();
+
+                        playerMovement.bulletCount--;
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Explode();
+                    }
+                }
+
             }
 
         }
@@ -91,11 +127,14 @@ public class BulletScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator FadeOutFragment(GameObject fragment, float fadeDuration) {
+    IEnumerator FadeOutFragment(GameObject fragment, float fadeDuration)
+    {
         SpriteRenderer renderer = fragment.GetComponent<SpriteRenderer>();
-        if (renderer != null) {
+        if (renderer != null)
+        {
             float startAlpha = renderer.color.a;
-            for (float t = 0; t < 1; t += Time.deltaTime / fadeDuration) {
+            for (float t = 0; t < 1; t += Time.deltaTime / fadeDuration)
+            {
                 if (renderer == null) break; // Check if renderer still exists
                 Color newColor = renderer.color;
                 newColor.a = Mathf.Lerp(startAlpha, 0, t);
