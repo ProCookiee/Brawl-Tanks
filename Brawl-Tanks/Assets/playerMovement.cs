@@ -40,11 +40,12 @@ public class playerMovement : MonoBehaviour
 
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         AssignControls();
         firePoint = transform.Find("Turret");
         bulletCount = 0;
         prefabs = GameObject.Find("GameManager").GetComponent<Prefabs>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
         if(gameManager.currentModifier == 1)
         {
             speed = speed*1.6f;
@@ -54,6 +55,7 @@ public class playerMovement : MonoBehaviour
 
     void AssignControls()
     {
+        
         if (playerID == PlayerID.Player1)
         {
             forwardKey = KeyCode.W;
@@ -70,6 +72,21 @@ public class playerMovement : MonoBehaviour
             rightKey = KeyCode.RightArrow;
             shootKey = KeyCode.Space;
         }
+        if(gameManager.currentModifier == 3)
+        {
+            InvertControls();
+        }
+    }
+
+    void InvertControls()
+    {
+        KeyCode temp = forwardKey;
+        forwardKey = backwardKey;
+        backwardKey = temp;
+
+        temp = leftKey;
+        leftKey = rightKey;
+        rightKey = temp;
     }
 
     void Update()
