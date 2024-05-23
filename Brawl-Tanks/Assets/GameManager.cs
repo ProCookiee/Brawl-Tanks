@@ -25,8 +25,11 @@ public class GameManager : MonoBehaviour
     public GameObject player2;
     public GameObject wallPrefab;
 
+    AbilitiesSpawning abilitiesSpawning;
+
     public int currentModifier;
     int resetTimer = 15;
+    bool setText = false;
 
     // Ensure only one instance of GameManager exists
     private void Awake()
@@ -42,7 +45,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        abilitiesSpawning = GameObject.Find("GameManager").GetComponent<AbilitiesSpawning>();
         goalText.text = "First to: " + GameState.goal.ToString();
         //gamemodeText.text = GameState.gamemode;
 
@@ -61,7 +64,7 @@ public class GameManager : MonoBehaviour
         MapGenerator.GenerateMap(wallPrefab);
 
         currentModifier = Random.Range(0,4);
-        currentModifier = 3;
+        currentModifier = 4;
         // Start the coroutine to regenerate the map every 15 seconds
         Debug.Log("current modifier " + currentModifier);
         if(currentModifier == 0){
@@ -75,6 +78,9 @@ public class GameManager : MonoBehaviour
         }
         else if(currentModifier == 3){
             MapResetTimer.text = "Inverted controls!";
+        }
+        else if(currentModifier == 4){
+            MapResetTimer.text = "Only power: ";
         }
         else{
             MapResetTimer.text = "";
@@ -92,6 +98,27 @@ public class GameManager : MonoBehaviour
             //SceneManager.LoadScene("GameOver");
             P1ScoreText.text = "P1: " + GameState.P1Score;
             P2ScoreText.text = "P2: " + GameState.P2Score;
+        }
+        if(currentModifier == 4 && !setText ){
+            if(abilitiesSpawning.chosenAbility == 0){
+                MapResetTimer.text = "Only power: Laser";
+            }
+            else if(abilitiesSpawning.chosenAbility == 1){
+                MapResetTimer.text = "Only power: DeathRay";
+            }
+            else if(abilitiesSpawning.chosenAbility == 2){
+                MapResetTimer.text = "Only power: FragBomb";
+            }
+            else if(abilitiesSpawning.chosenAbility == 3){
+                MapResetTimer.text = "Only power: Gatling gun";
+            }
+            else if(abilitiesSpawning.chosenAbility == 4){
+                MapResetTimer.text = "Only power: RC Missile";
+            }
+            else if(abilitiesSpawning.chosenAbility == 5){
+                MapResetTimer.text = "Only power: Shield";
+            }
+            setText = true;
         }
     }
     // Coroutine to load the next scene

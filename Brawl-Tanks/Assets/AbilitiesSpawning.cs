@@ -26,6 +26,7 @@ public class AbilitiesSpawning : MonoBehaviour
     private int currentAbilityCount = 0;
 
     GameManager gameManager;
+    public int chosenAbility = -1;
 
     void Start()
     {
@@ -38,6 +39,10 @@ public class AbilitiesSpawning : MonoBehaviour
         {
             maxSpawnRate *= 0.5f;
             minSpawnRate *= 0.5f;
+            maxAbilities = 8;
+        }
+        else if(gameManager.currentModifier == 4){
+            chosenAbility = Random.Range(0, abilityPrefabs.Count);
         }
     }
 
@@ -69,14 +74,6 @@ public class AbilitiesSpawning : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameManager.currentModifier == 2)
-        {
-            maxAbilities = 8;
-        }
-        else
-        {
-            maxAbilities = 4;
-        }
         // Check if it's time to spawn a new ability
         if (Time.time >= nextSpawnTime && currentAbilityCount < maxAbilities)
         {
@@ -96,7 +93,28 @@ public class AbilitiesSpawning : MonoBehaviour
             spawnLocation = GameManager.instance.GenerateSpawnLocation(3);
         } while (busyLocations.Contains(spawnLocation));
         // Select a random ability prefab
-        GameObject abilityPrefab = abilityPrefabs[Random.Range(0, abilityPrefabs.Count)];
+        GameObject abilityPrefab = null;
+        if(chosenAbility == -1){
+            abilityPrefab = abilityPrefabs[Random.Range(0, abilityPrefabs.Count)];
+        }
+        else if(chosenAbility == 0){
+            abilityPrefab = abilityPrefabs[0];
+        }
+        else if(chosenAbility == 1){
+            abilityPrefab = abilityPrefabs[1];
+        }
+        else if(chosenAbility == 2){
+            abilityPrefab = abilityPrefabs[2];
+        }
+        else if(chosenAbility == 3){
+            abilityPrefab = abilityPrefabs[3];
+        }
+        else if(chosenAbility == 4){
+            abilityPrefab = abilityPrefabs[4];
+        }
+        else if(chosenAbility == 5){
+            abilityPrefab = abilityPrefabs[5];
+        }
         //GameObject abilityPrefab = abilityPrefabs[3]; // 0 = laser, 1 = ray, 2 = frag 3 = gatling gun, 4 = rc, 5 = shield
         GameObject abilityInstance = Instantiate(abilityPrefab, spawnLocation, Quaternion.identity);
         // Spremeni velikost abilityja (lak nastavlas v unityu)
