@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
     int resetTimer = 15;
     bool setText = false;
 
+    //SURVIVAL ONLY VARIABLES
+
+    public int score = 0;
+    
+    public TextMeshProUGUI scoreText;
+
+    public int playerHP = 2;
+
     // Ensure only one instance of GameManager exists
     private void Awake()
     {
@@ -98,6 +106,7 @@ public class GameManager : MonoBehaviour
         {
             var p1 = Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
             p1.name = "P1_Tank";
+            playerHP = 2;
         }
 
 
@@ -147,7 +156,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-
+            scoreText.text = "Score: " + score;
+            if(playerHP <= 0){
+                SceneManager.LoadScene("GameOver");
+            }
         }
     }
     // Coroutine to load the next scene
