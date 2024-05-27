@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         {
             var p1 = Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
             p1.name = "P1_Tank";
-            playerHP = 2;
+            playerHP = 20;
         }
 
 

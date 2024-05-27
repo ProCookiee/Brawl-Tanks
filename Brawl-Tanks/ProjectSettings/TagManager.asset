@@ -10,6 +10,7 @@ TagManager:
   - Shield
   - DeathRay
   - rcRocket
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,13 @@ using UnityEngine.UIElements;
 public class enemySpawning : MonoBehaviour
 {
     public GameObject enemyPrefabLvl1;
+    public GameObject enemyPrefabLvl2;
     public bool pause = false;
+
+    private int maxEnemy2Count = 3;
+    private int maxTotalEnemyCount = 10;
+    private int currentEnemy2Count = 0;
+    private int currentTotalEnemyCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +32,11 @@ public class enemySpawning : MonoBehaviour
 
     void SpawnEnemy()
     {
+        if (pause || currentTotalEnemyCount >= maxTotalEnemyCount)
+        {
+            return;
+        }
+
         int pos = Random.Range(0, 2);
         float x = 100;
         float y = 100;
@@ -56,10 +67,39 @@ public class enemySpawning : MonoBehaviour
                 }
                 break;
         }
-        if (!pause)
+
+        int rand = Random.Range(0, 3);
+        if (rand == 0)
         {
             var enemy = Instantiate(enemyPrefabLvl1, new Vector2(x, y), Quaternion.identity);
             enemy.name = "Enemy1";
+            currentTotalEnemyCount++;
+        }
+        else if (rand == 1 && currentEnemy2Count < maxEnemy2Count)
+        {
+            var enemy = Instantiate(enemyPrefabLvl2, new Vector2(x, y), Quaternion.identity);
+            enemy.name = "Enemy2";
+            currentEnemy2Count++;
+            currentTotalEnemyCount++;
+        }
+        else if (rand == 1 && currentEnemy2Count >= maxEnemy2Count)
+        {
+            var enemy = Instantiate(enemyPrefabLvl1, new Vector2(x, y), Quaternion.identity);
+            enemy.name = "Enemy1";
+            currentTotalEnemyCount++;
+        }
+    }
+
+    public void OnEnemyDestroyed(string enemyName)
+    {
+        if (enemyName == "Enemy1")
+        {
+            currentTotalEnemyCount--;
+        }
+        else if (enemyName == "Enemy2")
+        {
+            currentTotalEnemyCount--;
+            currentEnemy2Count--;
         }
     }
 }

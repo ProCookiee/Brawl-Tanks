@@ -19,7 +19,12 @@ public class BulletScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = transform.up * 4f;
+        if(name == "enemy_bullet"){
+            rb.velocity = transform.up * 2f;
+        }
+        else{
+            rb.velocity = transform.up * 4f;
+        }
         bulletRenderer = GetComponent<Renderer>();
         mainCamera = Camera.main;
         if (name == "miniBullet")
@@ -37,7 +42,6 @@ public class BulletScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // Destroy the bullet if it goes off screen
     }
 
     private bool IsVisible()
