@@ -22,7 +22,6 @@ public class AbilityScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
     public void doSomething(GameObject player, GameObject ability)
     {
@@ -183,16 +182,42 @@ public class AbilityScript : MonoBehaviour
             rocketController.playerID = playerMovement.playerID;
             rocketController.enabled = true; // Omogoči logiko rakete
             rocketController.rigidBody2 = rocket.GetComponent<Rigidbody2D>();
+            rocketController.OnRocketDestroyed += (RocketController rc) =>
+            {
+                playerMovement.canShoot = false;
+                playerMovement.canMove = true;
+                StartCoroutine(EnableShooting(playerMovement));
+            };
         }
-        StartCoroutine(DestroyRocketAndEnableMovement(rocket, playerMovement));
+        StartCoroutine(DestroyRocketAndEnableMovement(rocket, playerMovement, rocketController));
 
     }
-    private IEnumerator DestroyRocketAndEnableMovement(GameObject rocket, playerMovement playerMovement)
+    private IEnumerator DestroyRocketAndEnableMovement(GameObject rocket, playerMovement playerMovement, RocketController rocketController)
     {
-        //20 sekund traja, da se raketa uniči če ne zadane kaj
-        yield return new WaitForSeconds(20);
-        Destroy(rocket);
+        bool rocketDestroyed = false;
+        // Subscribe to the event
+        rocketController.OnRocketDestroyed += (RocketController rc) =>
+        {
+            rocketDestroyed = true;
+        };
+        // Wait for 10 seconds or until the rocket is destroyed
+        float elapsedTime = 0f;
+        while (elapsedTime < 10f && !rocketDestroyed)
+        {
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+        // If the rocket was not already destroyed, destroy it now
+        if (!rocketDestroyed)
+        {
+            Destroy(rocket);
+        }
         playerMovement.canMove = true;
+    }
+    private IEnumerator EnableShooting(playerMovement playerMovement)
+    {
+        yield return new WaitForSeconds(1);
+        playerMovement.canShoot = true;
     }
     
 }
