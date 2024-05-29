@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     int resetTimer = 15;
     bool setText = false;
 
+    private GridUpdater gridUpdater;
+
     // Ensure only one instance of GameManager exists
     private void Awake()
     {
@@ -60,8 +62,13 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt("DestroyedPlayerID", 0);
 
+        
         // Zgeneriram mapo
         MapGenerator.GenerateMap(wallPrefab);
+        // To je grid za AI
+        gridUpdater = FindFirstObjectByType<GridUpdater>();
+        //updejtam grid za AI po ustvaritvi mape
+        gridUpdater.UpdateGrid();
 
         currentModifier = Random.Range(0,4);
         currentModifier = 4;
@@ -85,6 +92,8 @@ public class GameManager : MonoBehaviour
         else{
             MapResetTimer.text = "";
         }
+
+        
         
     }
 
@@ -139,6 +148,7 @@ public class GameManager : MonoBehaviour
             if (resetTimer == 1)
             {
                 MapGenerator.RegenerateMap(wallPrefab);
+                gridUpdater.UpdateGrid();
                 resetTimer = 16;
             }
 

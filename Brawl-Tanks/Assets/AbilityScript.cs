@@ -89,7 +89,26 @@ public class AbilityScript : MonoBehaviour
         }
         else if (ability == "rc")
         {
-            RcRocket(player);
+            //RcRocket(player);
+            AIRocket(player);
+        }
+    }
+    public void AIRocket(GameObject player){
+        playerMovement playerMovement = player.GetComponent<playerMovement>();
+        playerMovement.currentAbility = "";
+        playerMovement.canShoot = false;
+        var rocket = Instantiate(prefabs.aiRocketPrefab, playerMovement.firePoint.position, playerMovement.firePoint.rotation);
+        rocket.transform.localScale = new Vector3(0.08f, 0.08f, 1);
+        AIRocketController rocketController = rocket.GetComponent<AIRocketController>();
+        if (rocketController != null)
+        {
+            rocketController.playerID = playerMovement.playerID;
+            if(player.name == "P1_Tank")
+                rocketController.target = GameObject.Find("P2_Tank");
+            else if(player.name == "P2_Tank")
+                rocketController.target = GameObject.Find("P1_Tank"); 
+            rocketController.enabled = true;
+            StartCoroutine(DestroyRocket(rocket));
         }
     }
 
@@ -218,6 +237,11 @@ public class AbilityScript : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         playerMovement.canShoot = true;
+    }
+    private IEnumerator DestroyRocket(GameObject rocket)
+    {
+        yield return new WaitForSeconds(15);
+        Destroy(rocket);
     }
     
 }

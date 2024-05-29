@@ -133,7 +133,7 @@ MonoBehaviour:
   bulletExplosion: {fileID: 7012156182659995699, guid: 3f88b3c49f085104ca7ba0e5905ee590, type: 3}
   bulletBounceSound: {fileID: 38390983138911473}
   playerID: 0
-  rigidBody2: {fileID: 0}
+  rigidBody2: {fileID: 5845686599978269607}
   creationTime: 0
 --- !u!70 &8630492109899267472
 CapsuleCollider2D:
