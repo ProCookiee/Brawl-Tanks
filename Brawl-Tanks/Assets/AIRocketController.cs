@@ -7,11 +7,10 @@ using System.Runtime.CompilerServices;
 public class AIRocketController : MonoBehaviour
 {
     public GameObject target;
-    private float speed = 100.0f;
     private float nextWaypointDistance = 0.5f;
-    private float thrustForce = 3.0f;
-    private float maxSpeed = 5.0f;
-    private float rotationSpeed = 300.0f;
+    private float thrustForce = 5.0f;
+    private float maxSpeed = 10.0f;
+    private float rotationSpeed = 400.0f;
     Path path;
     int currentWaypoint = 0;
     bool reachedEndOfPath = false;
@@ -29,7 +28,7 @@ public class AIRocketController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         //prvi parameter je cas predn zacne, drugi je cas med ponovitvami
-        InvokeRepeating("UpdatePath", 0f, 1f);
+        InvokeRepeating("UpdatePath", 0f, 0.5f);
         rb.velocity = transform.up * initialSpeed;
         creationTime = Time.time;
 
@@ -73,7 +72,7 @@ public class AIRocketController : MonoBehaviour
         }
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        Vector2 force = speed * Time.deltaTime * direction;
+        //Vector2 force = speed * Time.deltaTime * direction;
 
         //rb.AddForce(force);
 

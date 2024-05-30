@@ -59,16 +59,17 @@ public class GameManager : MonoBehaviour
         // Nastavim zacetni rezultat
         P1ScoreText.text = "P1: " + GameState.P1Score;
         P2ScoreText.text = "P2: " + GameState.P2Score;
+        Debug.Log("Novo");
 
         PlayerPrefs.SetInt("DestroyedPlayerID", 0);
 
-        
-        // Zgeneriram mapo
-        MapGenerator.GenerateMap(wallPrefab);
         // To je grid za AI
         gridUpdater = FindFirstObjectByType<GridUpdater>();
+        // Zgeneriram mapo
+        MapGenerator.GenerateMap(wallPrefab);
         //updejtam grid za AI po ustvaritvi mape
         gridUpdater.UpdateGrid();
+        
 
         currentModifier = Random.Range(0,4);
         currentModifier = 4;
@@ -148,7 +149,6 @@ public class GameManager : MonoBehaviour
             if (resetTimer == 1)
             {
                 MapGenerator.RegenerateMap(wallPrefab);
-                gridUpdater.UpdateGrid();
                 resetTimer = 16;
             }
 

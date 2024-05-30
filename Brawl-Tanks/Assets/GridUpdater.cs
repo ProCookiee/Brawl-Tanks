@@ -5,6 +5,7 @@ using System;
 public class GridUpdater : MonoBehaviour
 {
     // Reference to the A* grid graph
+    //public GridGraph gridGraph;
     public GridGraph gridGraph;
 
     void Start()
@@ -15,6 +16,7 @@ public class GridUpdater : MonoBehaviour
 
     public void UpdateGrid()
     {
+        gridGraph = AstarPath.active.data.gridGraph;
         // Update the entire grid
         AstarPath.active.Scan(gridGraph);
         Debug.Log("Grid updated");
