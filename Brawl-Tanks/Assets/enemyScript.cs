@@ -25,7 +25,7 @@ public class enemyScript : MonoBehaviour
         firePoint = transform.Find("Turret");
         player = GameObject.FindGameObjectWithTag("Player").transform;
         enemyType = getEnemyType();
-        if(enemyType == 1 || enemyType == 2){
+        if(enemyType == 1 || enemyType == 2 || enemyType == 3){
             enemyHP = 1;
         }
         else{
@@ -39,6 +39,9 @@ public class enemyScript : MonoBehaviour
         }
         else if(name == "Enemy2"){
             return 2;
+        }
+        else if(name == "Enemy3"){
+            return 3;
         }
         else{
             return 0;
@@ -67,6 +70,20 @@ public class enemyScript : MonoBehaviour
                     }
                 }
             }
+            else if(enemyType == 3){
+                //če je v blizini playerja se ustavi
+                if(Vector2.Distance(transform.position, player.position) > 6 && canShoot){
+                    followPlayer();
+                }
+                else{
+                    if(canShoot){
+                        rotateTowardsPlayer();
+                        canShoot = false;
+                        StartCoroutine(shotLaser());
+                        StartCoroutine(laserCooldown());
+                    }
+                }
+            }
             else{
                 //transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
             }
@@ -78,15 +95,16 @@ public class enemyScript : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, direction, speed * Time.deltaTime);
         // Rotate the enemy to face the player
         rotateTowardsPlayer();
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = Vector2.zero;
-        rb.angularVelocity = 0f;
+        
     }
 
     void rotateTowardsPlayer(){
         Vector3 lookDirection = player.position - transform.position;
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
     }
 
     void shoot(){
@@ -95,8 +113,23 @@ public class enemyScript : MonoBehaviour
         Debug.Log("shoot");
     }
 
+    IEnumerator shotLaser(){
+        yield return new WaitForSeconds(0.1f);
+        var laserLine = Instantiate(prefabs.laserLine, firePoint.position, firePoint.rotation);
+        yield return new WaitForSeconds(2);
+        Destroy(laserLine);
+        var laser = Instantiate(prefabs.laserPrefab, firePoint.position, firePoint.rotation);
+        yield return new WaitForSeconds(1);
+        Destroy(laser);
+    }
+
     IEnumerator shootCooldown(){
         yield return new WaitForSeconds(1f);
+        canShoot = true;
+    }
+
+    IEnumerator laserCooldown(){
+        yield return new WaitForSeconds(3f);
         canShoot = true;
     }
 

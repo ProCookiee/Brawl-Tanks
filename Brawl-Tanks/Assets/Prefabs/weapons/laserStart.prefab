@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3199802522770249363}
   - component: {fileID: 2623603030277210286}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: laserStart
   m_TagString: DeathRay
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 5422492660309900717}
   - component: {fileID: 491805186574819086}
   - component: {fileID: 6128836411250834192}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Square
   m_TagString: DeathRay
   m_Icon: {fileID: 0}

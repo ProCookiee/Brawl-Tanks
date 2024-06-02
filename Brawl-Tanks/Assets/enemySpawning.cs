@@ -1,38 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class enemySpawning : MonoBehaviour
 {
     public GameObject enemyPrefabLvl1;
     public GameObject enemyPrefabLvl2;
+    public GameObject enemyPrefabLvl3;
     public bool pause = false;
 
     private int maxEnemy2Count = 3;
+    private int maxEnemy3Count = 2;
     private int maxTotalEnemyCount = 10;
     private int currentEnemy2Count = 0;
+    private int currentEnemy3Count = 0;
     private int currentTotalEnemyCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(SpawnEnemyCoroutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    // Coroutine to spawn enemies at a 2-second interval
+    IEnumerator SpawnEnemyCoroutine()
     {
-        // Example: Spawn enemies every 2 seconds
-        if (Time.frameCount % 120 == 0) // Assuming 60 frames per second
+        while (true)
         {
-            SpawnEnemy();
+            yield return new WaitForSeconds(2f);
+            if (!pause)
+            {
+                SpawnEnemy();
+            }
         }
     }
 
     void SpawnEnemy()
     {
-        if (pause || currentTotalEnemyCount >= maxTotalEnemyCount)
+        if (currentTotalEnemyCount >= maxTotalEnemyCount)
         {
             return;
         }
@@ -45,30 +50,16 @@ public class enemySpawning : MonoBehaviour
             case 0:
                 x = Random.Range(-9, 9);
                 y = Random.Range(0, 2);
-                if (y == 0)
-                {
-                    y = -5;
-                }
-                else
-                {
-                    y = 5;
-                }
+                y = y == 0 ? -5 : 5;
                 break;
             case 1:
                 x = Random.Range(0, 2);
                 y = Random.Range(-5, 5);
-                if (x == 0)
-                {
-                    x = -9;
-                }
-                else
-                {
-                    x = 9;
-                }
+                x = x == 0 ? -9 : 9;
                 break;
         }
 
-        int rand = Random.Range(0, 3);
+        int rand = Random.Range(0, 4);
         if (rand == 0)
         {
             var enemy = Instantiate(enemyPrefabLvl1, new Vector2(x, y), Quaternion.identity);
@@ -88,6 +79,19 @@ public class enemySpawning : MonoBehaviour
             enemy.name = "Enemy1";
             currentTotalEnemyCount++;
         }
+        else if (rand == 2 && currentEnemy3Count < maxEnemy3Count) // Spawning level 3 enemies without extra constraints
+        {
+            var enemy = Instantiate(enemyPrefabLvl3, new Vector2(x, y), Quaternion.identity);
+            enemy.name = "Enemy3";
+            currentEnemy3Count++;
+            currentTotalEnemyCount++;
+        }
+        else if (rand == 2 && currentEnemy3Count >= maxEnemy3Count)
+        {
+            var enemy = Instantiate(enemyPrefabLvl1, new Vector2(x, y), Quaternion.identity);
+            enemy.name = "Enemy1";
+            currentTotalEnemyCount++;
+        }
     }
 
     public void OnEnemyDestroyed(string enemyName)
@@ -100,6 +104,10 @@ public class enemySpawning : MonoBehaviour
         {
             currentTotalEnemyCount--;
             currentEnemy2Count--;
+        }
+        else if (enemyName == "Enemy3")
+        {
+            currentTotalEnemyCount--;
         }
     }
 }
