@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playerMovement : MonoBehaviour
 {
@@ -26,7 +27,6 @@ public class playerMovement : MonoBehaviour
     private List<GameObject> abilityIcons = new List<GameObject>();  // List of ability icons
 
     private int maxAbilities = 5;
-
     private int maxBullets = 7;
 
     public bool shieldActive = false;
@@ -38,6 +38,9 @@ public class playerMovement : MonoBehaviour
 
     private KeyCode forwardKey, backwardKey, leftKey, rightKey, shootKey;
 
+    private Camera mainCamera;
+    private Vector2 screenBounds;
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -45,17 +48,20 @@ public class playerMovement : MonoBehaviour
         firePoint = transform.Find("Turret");
         bulletCount = 0;
         prefabs = GameObject.Find("GameManager").GetComponent<Prefabs>();
-        
-        if(gameManager.currentModifier == 1)
+        mainCamera = Camera.main;
+
+        if (gameManager.currentModifier == 1)
         {
-            speed = speed*1.6f;
-            rotationSpeed = rotationSpeed*1.2f;
+            speed = speed * 1.6f;
+            rotationSpeed = rotationSpeed * 1.2f;
         }
+
+        // Calculate screen bounds
+        screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
     }
 
     void AssignControls()
     {
-        
         if (playerID == PlayerID.Player1)
         {
             forwardKey = KeyCode.W;
@@ -72,7 +78,7 @@ public class playerMovement : MonoBehaviour
             rightKey = KeyCode.RightArrow;
             shootKey = KeyCode.Space;
         }
-        if(gameManager.currentModifier == 3)
+        if (gameManager.currentModifier == 3)
         {
             InvertControls();
         }
@@ -94,14 +100,16 @@ public class playerMovement : MonoBehaviour
         bool isMoving = false;
         if (canMove)
         {
+            Vector2 newPosition = rb.position;
+
             if (Input.GetKey(forwardKey))
             {
-                rb.MovePosition(rb.position + (speed / 100 * (Vector2)transform.up));
+                newPosition += (speed / 100 * (Vector2)transform.up);
                 isMoving = true;
             }
             else if (Input.GetKey(backwardKey))
             {
-                rb.MovePosition(rb.position - (speed / 100 * (Vector2)transform.up));
+                newPosition -= (speed / 100 * (Vector2)transform.up);
                 isMoving = true;
             }
 
@@ -116,11 +124,19 @@ public class playerMovement : MonoBehaviour
                 isMoving = false;
             }
 
+            // Check if the new position is within screen bounds
+            if (SceneManager.GetActiveScene().name == "Survival")
+            {
+                newPosition = KeepWithinScreenBounds(newPosition);
+            }
+
+            rb.MovePosition(newPosition);
+
             if (Input.GetKey(shootKey) && canShoot)
             {
-                if (abilities.Count <= 0)
+                if (abilities.Count <= 0 || (SceneManager.GetActiveScene().name == "Survival"))
                 {
-                    if (bulletCount < maxBullets)
+                    if (bulletCount < maxBullets || (SceneManager.GetActiveScene().name == "Survival"))
                     {
                         var bullet = Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
                         bullet.name = name + "_bullet";
@@ -143,28 +159,34 @@ public class playerMovement : MonoBehaviour
                         AbilityScript abilityScript = GameManager.instance.GetComponent<AbilityScript>();
                         abilityScript.selectAbility(gameObject, nextAbility);
                         UpdateAbilitiesUI();
-                        if(nextAbility == "gatling")
+                        if (nextAbility == "gatling")
                         {
                             StartCoroutine(GattlingCooldown());
                         }
-                        else{
+                        else
+                        {
                             StartCoroutine(ShootCooldown());
                         }
-                        
                     }
-
                 }
             }
         }
-
-
-
 
         if (!isMoving)
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
         }
+    }
+
+    Vector2 KeepWithinScreenBounds(Vector2 position)
+    {
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(position);
+
+        viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.02f, 0.98f);
+        viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0.03f, 0.97f);
+
+        return mainCamera.ViewportToWorldPoint(viewportPosition);
     }
 
     void UpdateAbilitiesUI()
@@ -195,7 +217,6 @@ public class playerMovement : MonoBehaviour
             abilityIcons.Add(icon);
         }
     }
-
 
     Sprite getIcon(string ability)
     {
@@ -259,7 +280,6 @@ public class playerMovement : MonoBehaviour
                 Destroy(gameObject);
                 GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
             }
-
         }
     }
 

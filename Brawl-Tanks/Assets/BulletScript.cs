@@ -13,10 +13,20 @@ public class BulletScript : MonoBehaviour
     public ParticleSystem bulletExplosion;
     public AudioSource bulletBounceSound;
 
+    private Camera mainCamera;
+    private Renderer bulletRenderer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = transform.up * 4f;
+        if(name == "enemy_bullet"){
+            rb.velocity = transform.up * 2f;
+        }
+        else{
+            rb.velocity = transform.up * 4f;
+        }
+        bulletRenderer = GetComponent<Renderer>();
+        mainCamera = Camera.main;
         if (name == "miniBullet")
         {
             maxHits = 3;
@@ -28,7 +38,16 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsVisible())
+        {
+            Destroy(gameObject);
+        }
+    }
 
+    private bool IsVisible()
+    {
+        Vector3 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
+        return screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
     }
 
     private void OnCollisionEnter2D(Collision2D other)

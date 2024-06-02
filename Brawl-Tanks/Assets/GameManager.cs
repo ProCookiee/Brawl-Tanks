@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
     int resetTimer = 15;
     bool setText = false;
 
+    //SURVIVAL ONLY VARIABLES
+
+    public int score = 0;
+    
+    public TextMeshProUGUI scoreText;
+
+    public int playerHP = 2;
+
     // Ensure only one instance of GameManager exists
     private void Awake()
     {
@@ -45,80 +53,113 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        abilitiesSpawning = GameObject.Find("GameManager").GetComponent<AbilitiesSpawning>();
-        goalText.text = "First to: " + GameState.goal.ToString();
-        //gamemodeText.text = GameState.gamemode;
+        if (SceneManager.GetActiveScene().name == "DeathMatch")
+        {
+            abilitiesSpawning = GameObject.Find("GameManager").GetComponent<AbilitiesSpawning>();
+            goalText.text = "First to: " + GameState.goal.ToString();
+            //gamemodeText.text = GameState.gamemode;
 
-        var p1 = Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
-        p1.name = "P1_Tank";
-        var p2 = Instantiate(player2, GenerateSpawnLocation(2), Quaternion.identity);
-        p2.name = "P2_Tank";
+            var p1 = Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
+            p1.name = "P1_Tank";
+            var p2 = Instantiate(player2, GenerateSpawnLocation(2), Quaternion.identity);
+            p2.name = "P2_Tank";
 
-        // Nastavim zacetni rezultat
-        P1ScoreText.text = "P1: " + GameState.P1Score;
-        P2ScoreText.text = "P2: " + GameState.P2Score;
+            // Nastavim zacetni rezultat
+            P1ScoreText.text = "P1: " + GameState.P1Score;
+            P2ScoreText.text = "P2: " + GameState.P2Score;
 
-        PlayerPrefs.SetInt("DestroyedPlayerID", 0);
+            PlayerPrefs.SetInt("DestroyedPlayerID", 0);
 
-        // Zgeneriram mapo
-        MapGenerator.GenerateMap(wallPrefab);
+            // Zgeneriram mapo
+            MapGenerator.GenerateMap(wallPrefab);
 
-        currentModifier = Random.Range(0,4);
-        currentModifier = 4;
-        // Start the coroutine to regenerate the map every 15 seconds
-        Debug.Log("current modifier " + currentModifier);
-        if(currentModifier == 0){
-            StartCoroutine(RegenerateMapPeriodically());
+            currentModifier = Random.Range(0, 4);
+            currentModifier = 4;
+            // Start the coroutine to regenerate the map every 15 seconds
+            Debug.Log("current modifier " + currentModifier);
+            if (currentModifier == 0)
+            {
+                StartCoroutine(RegenerateMapPeriodically());
+            }
+            else if (currentModifier == 1)
+            {
+                MapResetTimer.text = "Super speed!";
+            }
+            else if (currentModifier == 2)
+            {
+                MapResetTimer.text = "Power Madness!";
+            }
+            else if (currentModifier == 3)
+            {
+                MapResetTimer.text = "Inverted controls!";
+            }
+            else if (currentModifier == 4)
+            {
+                MapResetTimer.text = "Only power: ";
+            }
+            else
+            {
+                MapResetTimer.text = "";
+            }
         }
-        else if(currentModifier == 1){
-            MapResetTimer.text = "Super speed!";
+        else
+        {
+            var p1 = Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
+            p1.name = "P1_Tank";
+            playerHP = 20;
         }
-        else if(currentModifier == 2){
-            MapResetTimer.text = "Power Madness!";
-        }
-        else if(currentModifier == 3){
-            MapResetTimer.text = "Inverted controls!";
-        }
-        else if(currentModifier == 4){
-            MapResetTimer.text = "Only power: ";
-        }
-        else{
-            MapResetTimer.text = "";
-        }
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player1Destroyed || player2Destroyed)
+        if (SceneManager.GetActiveScene().name == "DeathMatch")
         {
-            StartCoroutine(LoadNextScene());
-            // Trigger game over
-            //SceneManager.LoadScene("GameOver");
-            P1ScoreText.text = "P1: " + GameState.P1Score;
-            P2ScoreText.text = "P2: " + GameState.P2Score;
+            if (player1Destroyed || player2Destroyed)
+            {
+                StartCoroutine(LoadNextScene());
+                // Trigger game over
+                //SceneManager.LoadScene("GameOver");
+                P1ScoreText.text = "P1: " + GameState.P1Score;
+                P2ScoreText.text = "P2: " + GameState.P2Score;
+            }
+            if (currentModifier == 4 && !setText)
+            {
+                if (abilitiesSpawning.chosenAbility == 0)
+                {
+                    MapResetTimer.text = "Only power: Laser";
+                }
+                else if (abilitiesSpawning.chosenAbility == 1)
+                {
+                    MapResetTimer.text = "Only power: DeathRay";
+                }
+                else if (abilitiesSpawning.chosenAbility == 2)
+                {
+                    MapResetTimer.text = "Only power: FragBomb";
+                }
+                else if (abilitiesSpawning.chosenAbility == 3)
+                {
+                    MapResetTimer.text = "Only power: Gatling gun";
+                }
+                else if (abilitiesSpawning.chosenAbility == 4)
+                {
+                    MapResetTimer.text = "Only power: RC Missile";
+                }
+                else if (abilitiesSpawning.chosenAbility == 5)
+                {
+                    MapResetTimer.text = "Only power: Shield";
+                }
+                setText = true;
+            }
         }
-        if(currentModifier == 4 && !setText ){
-            if(abilitiesSpawning.chosenAbility == 0){
-                MapResetTimer.text = "Only power: Laser";
+        else
+        {
+            scoreText.text = "Score: " + score;
+            if(playerHP <= 0){
+                SceneManager.LoadScene("GameOver");
             }
-            else if(abilitiesSpawning.chosenAbility == 1){
-                MapResetTimer.text = "Only power: DeathRay";
-            }
-            else if(abilitiesSpawning.chosenAbility == 2){
-                MapResetTimer.text = "Only power: FragBomb";
-            }
-            else if(abilitiesSpawning.chosenAbility == 3){
-                MapResetTimer.text = "Only power: Gatling gun";
-            }
-            else if(abilitiesSpawning.chosenAbility == 4){
-                MapResetTimer.text = "Only power: RC Missile";
-            }
-            else if(abilitiesSpawning.chosenAbility == 5){
-                MapResetTimer.text = "Only power: Shield";
-            }
-            setText = true;
         }
     }
     // Coroutine to load the next scene
@@ -150,46 +191,57 @@ public class GameManager : MonoBehaviour
     // Method to call when a player is destroyed
     public void PlayerDestroyed(PlayerID playerID)
     {
-        int destroyedPlayerID = PlayerPrefs.GetInt("DestroyedPlayerID");
-
-        // Set the corresponding player destroyed state to true
-        if (playerID == PlayerID.Player1)
+        if (SceneManager.GetActiveScene().name == "DeathMatch")
         {
-            GameState.P2Score++;
-            player1Destroyed = true;
+            int destroyedPlayerID = PlayerPrefs.GetInt("DestroyedPlayerID");
 
-            if (destroyedPlayerID == 2)
-                PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
-            else
-                PlayerPrefs.SetInt("DestroyedPlayerID", 1); // Player 1 was destroyed
-        }
-        else if (playerID == PlayerID.Player2)
-        {
-            GameState.P1Score++;
-            player2Destroyed = true;
+            // Set the corresponding player destroyed state to true
+            if (playerID == PlayerID.Player1)
+            {
+                GameState.P2Score++;
+                player1Destroyed = true;
 
-            if (destroyedPlayerID == 1)
-                PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
-            else
-                PlayerPrefs.SetInt("DestroyedPlayerID", 2); // Player 2 was destroyed
+                if (destroyedPlayerID == 2)
+                    PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
+                else
+                    PlayerPrefs.SetInt("DestroyedPlayerID", 1); // Player 1 was destroyed
+            }
+            else if (playerID == PlayerID.Player2)
+            {
+                GameState.P1Score++;
+                player2Destroyed = true;
+
+                if (destroyedPlayerID == 1)
+                    PlayerPrefs.SetInt("DestroyedPlayerID", 3); // Draw
+                else
+                    PlayerPrefs.SetInt("DestroyedPlayerID", 2); // Player 2 was destroyed
+            }
+        }else{
+
         }
     }
 
     public Vector3 GenerateSpawnLocation(int player)
     {
-        float x, y;
+        if (SceneManager.GetActiveScene().name == "DeathMatch")
+        {
+            float x, y;
 
-        // mapa je 8x4, torej ConvertY prejme 0-4, ConvertX pa 0-8
-        if (player == 1)
-            x = MapGenerator.ConvertX(Random.Range(0, 3));
-        else if (player == 2)
-            x = MapGenerator.ConvertX(Random.Range(5, 8));
-        else
-            x = MapGenerator.ConvertX(Random.Range(0, 8));
+            // mapa je 8x4, torej ConvertY prejme 0-4, ConvertX pa 0-8
+            if (player == 1)
+                x = MapGenerator.ConvertX(Random.Range(0, 3));
+            else if (player == 2)
+                x = MapGenerator.ConvertX(Random.Range(5, 8));
+            else
+                x = MapGenerator.ConvertX(Random.Range(0, 8));
 
-        y = MapGenerator.ConvertY(Random.Range(0, 4));
+            y = MapGenerator.ConvertY(Random.Range(0, 4));
 
-        // x+1f in y-1f, da premaknem iz zgornje levega kota celice v sredino celice
-        return new Vector3(x+1f, y-1f, 0f);
+            // x+1f in y-1f, da premaknem iz zgornje levega kota celice v sredino celice
+            return new Vector3(x + 1f, y - 1f, 0f);
+        }
+        else{
+            return new Vector3(0, 0, 0);
+        }
     }
 }
