@@ -24,13 +24,19 @@ public class GameManager : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     public GameObject wallPrefab;
+    public GameObject breakableWallPrefab;
+    public GameObject pauseMenuCanvas;
 
     AbilitiesSpawning abilitiesSpawning;
     private GridUpdater gridUpdater;
 
     public int currentModifier;
     int resetTimer = 15;
+    int breakableWallTimer = 5;
     bool setText = false;
+
+    public bool isPaused = false;
+
     //SURVIVAL ONLY VARIABLES
 
     public int score = 0;
@@ -53,6 +59,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        Time.timeScale = 1;
+
         if (SceneManager.GetActiveScene().name == "DeathMatch")
         {
             abilitiesSpawning = GameObject.Find("GameManager").GetComponent<AbilitiesSpawning>();
@@ -78,8 +86,8 @@ public class GameManager : MonoBehaviour
         gridUpdater.UpdateGrid();
         
 
-            currentModifier = Random.Range(0, 4);
-            currentModifier = 4;
+            currentModifier = Random.Range(0, 5);
+            currentModifier = 5;
             // Start the coroutine to regenerate the map every 15 seconds
             Debug.Log("current modifier " + currentModifier);
             if (currentModifier == 0)
@@ -101,6 +109,11 @@ public class GameManager : MonoBehaviour
             else if (currentModifier == 4)
             {
                 MapResetTimer.text = "Only power: ";
+            }
+            else if (currentModifier == 5)
+            {
+                MapResetTimer.text = "Breakable walls!";
+                StartCoroutine(MakeBreakableWallsPeriodically());
             }
             else
             {
@@ -193,6 +206,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator MakeBreakableWallsPeriodically()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+
+            if (breakableWallTimer == 1)
+            {
+                MapGenerator.MakeBreakableWall(breakableWallPrefab);
+                breakableWallTimer = 5;
+            }
+
+            breakableWallTimer--;
+        }
+    }
+
     // Method to call when a player is destroyed
     public void PlayerDestroyed(PlayerID playerID)
     {
@@ -248,5 +277,27 @@ public class GameManager : MonoBehaviour
         else{
             return new Vector3(0, 0, 0);
         }
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0;
+            pauseMenuCanvas.SetActive(true);
+        } else
+        {
+            Time.timeScale = 1;
+            pauseMenuCanvas.SetActive(false);
+        }
+    }
+
+    public void ExitGame()
+    {
+        GameState.P1Score = 0;
+        GameState.P2Score = 0;
+        SceneManager.LoadScene("MainMenu");
     }
 }

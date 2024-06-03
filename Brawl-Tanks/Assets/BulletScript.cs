@@ -128,6 +128,47 @@ public class BulletScript : MonoBehaviour
 
             }
 
+        } else if (other.gameObject.tag == "BreakableWall")
+        {
+            if (name == "fragment")
+            {
+                StartCoroutine(twoSecondTimer());
+            }
+            else
+            {
+                GameObject player;
+                playerMovement playerMovement;
+
+                if (name == "P1_Tank_bullet")
+                {
+                    player = GameObject.Find("P1_Tank");
+                }
+                else if (name == "P2_Tank_bullet")
+                {
+                    player = GameObject.Find("P2_Tank");
+                }
+                else
+                {
+                    player = null;
+                }
+
+                if (player == null)
+                {
+                    Explode();
+                    Destroy(gameObject);
+                    Destroy(other.gameObject);
+
+                }
+                else
+                {
+                    playerMovement = player.GetComponent<playerMovement>();
+                    playerMovement.bulletCount--;
+
+                    Explode();
+                    Destroy(gameObject);
+                    Destroy(other.gameObject);
+                }
+            }
         }
     }
 
