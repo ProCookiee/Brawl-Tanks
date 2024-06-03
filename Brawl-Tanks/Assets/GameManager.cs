@@ -26,10 +26,18 @@ public class GameManager : MonoBehaviour
     public GameObject wallPrefab;
 
     AbilitiesSpawning abilitiesSpawning;
+    private GridUpdater gridUpdater;
 
     public int currentModifier;
     int resetTimer = 15;
     bool setText = false;
+    //SURVIVAL ONLY VARIABLES
+
+    public int score = 0;
+    
+    public TextMeshProUGUI scoreText;
+
+    public int playerHP = 2;
 
     // Ensure only one instance of GameManager exists
     private void Awake()
@@ -220,15 +228,17 @@ public class GameManager : MonoBehaviour
 
     public Vector3 GenerateSpawnLocation(int player)
     {
-        float x, y;
+        if (SceneManager.GetActiveScene().name == "DeathMatch")
+        {
+            float x, y;
 
-        // mapa je 8x4, torej ConvertY prejme 0-4, ConvertX pa 0-8
-        if (player == 1)
-            x = MapGenerator.ConvertX(Random.Range(0, 3));
-        else if (player == 2)
-            x = MapGenerator.ConvertX(Random.Range(5, 8));
-        else
-            x = MapGenerator.ConvertX(Random.Range(0, 8));
+            // mapa je 8x4, torej ConvertY prejme 0-4, ConvertX pa 0-8
+            if (player == 1)
+                x = MapGenerator.ConvertX(Random.Range(0, 3));
+            else if (player == 2)
+                x = MapGenerator.ConvertX(Random.Range(5, 8));
+            else
+                x = MapGenerator.ConvertX(Random.Range(0, 8));
 
             y = MapGenerator.ConvertY(Random.Range(0, 4));
 
