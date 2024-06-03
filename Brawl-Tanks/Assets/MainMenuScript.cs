@@ -36,6 +36,13 @@ public class MainMenuScript : MonoBehaviour
     {
         GameState.goal = goal;
         GameState.gamemode = gamemode;
-        SceneManager.LoadScene("Game");
+
+        if (gamemode == "Singleplayer")
+        {
+            SceneManager.LoadScene("Survival");
+            return;
+        }
+
+        SceneManager.LoadScene("DeathMatch");
     }
 }
