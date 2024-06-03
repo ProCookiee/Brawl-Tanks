@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     public GameObject wallPrefab;
+    public GameObject breakableWallPrefab;
     public GameObject pauseMenuCanvas;
 
     AbilitiesSpawning abilitiesSpawning;
@@ -31,7 +32,11 @@ public class GameManager : MonoBehaviour
 
     public int currentModifier;
     int resetTimer = 15;
+    int breakableWallTimer = 5;
     bool setText = false;
+
+    public bool isPaused = false;
+
     //SURVIVAL ONLY VARIABLES
 
     public int score = 0;
@@ -39,8 +44,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     public int playerHP = 2;
-
-    public bool isPaused = false;
 
     // Ensure only one instance of GameManager exists
     private void Awake()
@@ -83,8 +86,8 @@ public class GameManager : MonoBehaviour
         gridUpdater.UpdateGrid();
         
 
-            currentModifier = Random.Range(0, 4);
-            currentModifier = 4;
+            currentModifier = Random.Range(0, 5);
+            currentModifier = 5;
             // Start the coroutine to regenerate the map every 15 seconds
             Debug.Log("current modifier " + currentModifier);
             if (currentModifier == 0)
@@ -106,6 +109,11 @@ public class GameManager : MonoBehaviour
             else if (currentModifier == 4)
             {
                 MapResetTimer.text = "Only power: ";
+            }
+            else if (currentModifier == 5)
+            {
+                MapResetTimer.text = "Breakable walls!";
+                StartCoroutine(MakeBreakableWallsPeriodically());
             }
             else
             {
@@ -195,6 +203,22 @@ public class GameManager : MonoBehaviour
 
             resetTimer--;
             MapResetTimer.text = "Map reset in " + resetTimer + "s";
+        }
+    }
+
+    IEnumerator MakeBreakableWallsPeriodically()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+
+            if (breakableWallTimer == 1)
+            {
+                MapGenerator.MakeBreakableWall(breakableWallPrefab);
+                breakableWallTimer = 5;
+            }
+
+            breakableWallTimer--;
         }
     }
 

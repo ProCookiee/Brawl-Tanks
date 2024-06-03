@@ -1363,6 +1363,7 @@ MonoBehaviour:
   player1: {fileID: 6425677961234491085, guid: 9be0da4bc87858e4f975fd4f23376dff, type: 3}
   player2: {fileID: 6936745492311206717, guid: ed8014d331885c24c89b67c7d449bc21, type: 3}
   wallPrefab: {fileID: 4363770085553358205, guid: aa02a29efcae025499a26d4db04e53f6, type: 3}
+  breakableWallPrefab: {fileID: 4363770085553358205, guid: 93d84e5a3aa9e4043ac778b847e1fcc5, type: 3}
   pauseMenuCanvas: {fileID: 866887407}
   currentModifier: 0
   score: 0

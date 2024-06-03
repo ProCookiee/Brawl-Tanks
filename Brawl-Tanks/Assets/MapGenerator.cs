@@ -189,6 +189,39 @@ public static class MapGenerator
                 UnityEngine.Object.Destroy(obj);
             }
         }
+
+        GenerateMap(wallPrefab);
+    }
+
+    public static void MakeBreakableWall(GameObject breakableWallPrefab)
+    {
+        // Find all GameObjects in the scene
+        GameObject[] allObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        List<GameObject> wallObjects = new List<GameObject>();
+
+        // Iterate through all found GameObjects
+        foreach (GameObject obj in allObjects)
+        {
+            // Check if the object's name is "Wall(Clone)"
+            if (obj.name == "Wall(Clone)")
+            {
+                // Append to list of wall objects
+                wallObjects.Add(obj);
+            }
+        }
+
+        if (wallObjects.Count == 0)
+        {
+            return;
+        }
+
+        GameObject selectedWall = wallObjects[Random.Range(0, wallObjects.Count)];
+
+        GameObject breakableWall = GameObject.Instantiate(breakableWallPrefab, selectedWall.transform.position, Quaternion.identity);
+        breakableWall.transform.localScale = selectedWall.transform.localScale;
+        breakableWall.tag = "BreakableWall";
+
+        UnityEngine.Object.Destroy(selectedWall);
     }
 
     public static float ConvertX(float x)
