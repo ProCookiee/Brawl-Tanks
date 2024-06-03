@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     public GameObject wallPrefab;
+    public GameObject pauseMenuCanvas;
 
     AbilitiesSpawning abilitiesSpawning;
     private GridUpdater gridUpdater;
@@ -39,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     public int playerHP = 2;
 
+    public bool isPaused = false;
+
     // Ensure only one instance of GameManager exists
     private void Awake()
     {
@@ -53,6 +56,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        Time.timeScale = 1;
+
         if (SceneManager.GetActiveScene().name == "DeathMatch")
         {
             abilitiesSpawning = GameObject.Find("GameManager").GetComponent<AbilitiesSpawning>();
@@ -248,5 +253,27 @@ public class GameManager : MonoBehaviour
         else{
             return new Vector3(0, 0, 0);
         }
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0;
+            pauseMenuCanvas.SetActive(true);
+        } else
+        {
+            Time.timeScale = 1;
+            pauseMenuCanvas.SetActive(false);
+        }
+    }
+
+    public void ExitGame()
+    {
+        GameState.P1Score = 0;
+        GameState.P2Score = 0;
+        SceneManager.LoadScene("MainMenu");
     }
 }
