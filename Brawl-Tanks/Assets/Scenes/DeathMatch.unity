@@ -956,7 +956,7 @@ MonoBehaviour:
   maxSpawnRate: 10
   maxAbilities: 6
   abilityPrefabs:
-  - {fileID: 6936745492311206717, guid: 5ed5e9bbad3564e4898129e14fbc5a7f, type: 3}
+  - {fileID: 6936745492311206717, guid: 3db9328e43a501c46b38bba76997289a, type: 3}
   chosenAbility: -1
 --- !u!114 &1255787218
 MonoBehaviour:
@@ -995,7 +995,7 @@ MonoBehaviour:
   GatlingSprite: {fileID: -2660891402625428762, guid: 7a1e69ae86a334d4298cd727989ac5d5, type: 3}
   RCSprite: {fileID: 4411180060991924037, guid: 4909f1e441c20a04bbd21de54424a90a, type: 3}
   LaserSprite: {fileID: -2470753719702770908, guid: 29041bf8c6e6dbf468c5917a5d67ac37, type: 3}
-  AIrocketSprite: {fileID: 0}
+  AIrocketSprite: {fileID: 625741127380015840, guid: abd35440e5f68ca458f01004664fe6e2, type: 3}
 --- !u!114 &1255787220
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -100,6 +100,7 @@ public class AbilitiesSpawning : MonoBehaviour
             spawnLocation = GameManager.instance.GenerateSpawnLocation(3);
         } while (busyLocations.Contains(spawnLocation));
         // Select a random ability prefab
+        /*
         GameObject abilityPrefab = null;
         if (chosenAbility == -1)
         {
@@ -128,6 +129,22 @@ public class AbilitiesSpawning : MonoBehaviour
         else if (chosenAbility == 5)
         {
             abilityPrefab = abilityPrefabs[5];
+        }
+        */
+        // Select a random ability prefab
+        GameObject abilityPrefab;
+        if (chosenAbility == -1)
+        {
+            abilityPrefab = abilityPrefabs[Random.Range(0, abilityPrefabs.Count)];
+        }
+        else if (chosenAbility >= 0 && chosenAbility < abilityPrefabs.Count)
+        {
+            abilityPrefab = abilityPrefabs[chosenAbility];
+        }
+        else
+        {
+            Debug.LogError("Chosen ability index is out of range!");
+            return;
         }
         //GameObject abilityPrefab = abilityPrefabs[3]; // 0 = laser, 1 = ray, 2 = frag 3 = gatling gun, 4 = rc, 5 = shield
         GameObject abilityInstance = Instantiate(abilityPrefab, spawnLocation, Quaternion.identity);

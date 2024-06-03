@@ -49,6 +49,8 @@ public class AbilityScript : MonoBehaviour
         }
         else if(ability.name == "power_laser"){
             abilityType = "laser";
+        }else if(ability.name == "power_ai"){
+            abilityType = "ai";
         }
         playerMove.abilities.Enqueue(abilityType);  // Add ability to the queue
 
@@ -89,9 +91,13 @@ public class AbilityScript : MonoBehaviour
         }
         else if (ability == "rc")
         {
-            //RcRocket(player);
+            RcRocket(player);
+        }
+        else if (ability == "ai")
+        {
             AIRocket(player);
         }
+
     }
     public void AIRocket(GameObject player){
         playerMovement playerMovement = player.GetComponent<playerMovement>();
