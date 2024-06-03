@@ -126,8 +126,6 @@ public class GameManager : MonoBehaviour
             p1.name = "P1_Tank";
             playerHP = 20;
         }
-
-
     }
 
     // Update is called once per frame
@@ -198,6 +196,7 @@ public class GameManager : MonoBehaviour
             if (resetTimer == 1)
             {
                 MapGenerator.RegenerateMap(wallPrefab);
+                gridUpdater.UpdateGrid();
                 resetTimer = 16;
             }
 
