@@ -11,8 +11,8 @@ public class GameOverScript : MonoBehaviour
      // Reference to the TextMeshProUGUI component
     public TextMeshProUGUI playerDestroyedText;
     // Variable to store the retrieved player ID
-    [SerializeField] private string mainMenuSceneName = "MainMenu";
-    [SerializeField] private string gameSceneName = "Game";
+    private string mainMenuSceneName = "MainMenu";
+    private string gameSceneName = "DeathMatch";
     private bool GameOver = false;
     public Button mainMenuButton;
     public GameObject mainMenuButtonObject;
