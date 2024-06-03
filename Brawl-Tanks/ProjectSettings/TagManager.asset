@@ -11,6 +11,7 @@ TagManager:
   - DeathRay
   - rcRocket
   - Enemy
+  - aiRocket
   layers:
   - Default
   - TransparentFX
@@ -20,6 +21,7 @@ TagManager:
   - UI
   - Shield
   - DeathRay
+  - Wall
   - Enemy
   - 
   - 

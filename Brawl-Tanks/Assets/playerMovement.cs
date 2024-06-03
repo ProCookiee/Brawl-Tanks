@@ -33,6 +33,7 @@ public class playerMovement : MonoBehaviour
 
     Prefabs prefabs;
     RocketController rocketController;
+    AIRocketController aiRocketController;
 
     GameManager gameManager;
 
@@ -276,6 +277,15 @@ public class playerMovement : MonoBehaviour
         {
             rocketController = other.gameObject.GetComponent<RocketController>();
             if (Time.time - rocketController.creationTime > 0.02f)
+            {
+                Destroy(gameObject);
+                GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
+            }
+        }
+        if (other.gameObject.tag == "aiRocket")
+        {
+            aiRocketController = other.gameObject.GetComponent<AIRocketController>();
+            if (Time.time - aiRocketController.creationTime > 0.02f)
             {
                 Destroy(gameObject);
                 GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);

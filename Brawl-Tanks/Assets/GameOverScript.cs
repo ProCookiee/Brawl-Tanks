@@ -16,6 +16,7 @@ public class GameOverScript : MonoBehaviour
     private bool GameOver = false;
     public Button mainMenuButton;
     public GameObject mainMenuButtonObject;
+    private GridUpdater gridUpdater;
     public void RestartGame()
     {
         SceneManager.LoadScene(mainMenuSceneName);

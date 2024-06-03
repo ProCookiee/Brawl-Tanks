@@ -11,6 +11,7 @@ public class MapCell
     public bool right;
     public bool bottom;
     public bool left;
+    
 
     // Constructor to initialize a map cell with all walls initially present or absent
     public MapCell(int y, int x, bool top, bool right, bool bottom, bool left)
@@ -172,6 +173,7 @@ public static class MapGenerator
         }
     }
 
+
     public static void RegenerateMap(GameObject wallPrefab)
     {
         // Find all GameObjects in the scene
@@ -187,8 +189,6 @@ public static class MapGenerator
                 UnityEngine.Object.Destroy(obj);
             }
         }
-
-        GenerateMap(wallPrefab);
     }
 
     public static float ConvertX(float x)

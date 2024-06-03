@@ -10,6 +10,7 @@ public class Prefabs : MonoBehaviour
     public GameObject shieldPrefab;
     public GameObject fragmentPrefab;
     public GameObject rcPrefab;
+    public GameObject aiRocketPrefab;
 
     public Sprite ShieldSprite;
     public Sprite RaySprite;
@@ -17,6 +18,7 @@ public class Prefabs : MonoBehaviour
     public Sprite GatlingSprite;
     public Sprite RCSprite;
     public Sprite LaserSprite;
+    public Sprite AIrocketSprite;
     
 
 }

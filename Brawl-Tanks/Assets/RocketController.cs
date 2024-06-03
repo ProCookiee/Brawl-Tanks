@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,11 @@ public class RocketController : MonoBehaviour
     private float rotationOffset = 180f;
     public playerMovement.PlayerID playerID;
     public Rigidbody2D rigidBody2;
-    private KeyCode leftKey, rightKey;
+    private KeyCode leftKey, rightKey, shootKey;
     public float creationTime;
+    
+
+    public event Action<RocketController> OnRocketDestroyed;
 
     void Start()
     {
@@ -30,11 +34,13 @@ public class RocketController : MonoBehaviour
         {
             leftKey = KeyCode.A;
             rightKey = KeyCode.D;
+            shootKey = KeyCode.Q;
         }
         else if (playerID == playerMovement.PlayerID.Player2)
         {
             leftKey = KeyCode.LeftArrow;
             rightKey = KeyCode.RightArrow;
+            shootKey = KeyCode.Space;
         }
     }
 
@@ -52,6 +58,12 @@ public class RocketController : MonoBehaviour
         {
             rigidBody2.angularVelocity = 0;
         }
+
+        if(Input.GetKey(shootKey) && Time.time - creationTime > 1f){
+            Destroy(gameObject);
+            OnRocketDestroyed?.Invoke(this);
+        }
+
     }
 
     void FixedUpdate()
@@ -82,6 +94,7 @@ public class RocketController : MonoBehaviour
         {
             if(Time.time - creationTime > 0.02f){
                 Destroy(gameObject);
+                OnRocketDestroyed?.Invoke(this);
             }
         }
     }
