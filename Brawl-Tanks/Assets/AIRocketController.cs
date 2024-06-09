@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 
 public class AIRocketController : MonoBehaviour
 {
+    private GameObject redSmoke;
+    private GameObject blueSmoke;
     public GameObject target;
     private float nextWaypointDistance = 0.5f;
     private float thrustForce = 5.0f;
@@ -21,6 +23,24 @@ public class AIRocketController : MonoBehaviour
     Seeker seeker;
     Rigidbody2D rb;
 
+    public void SwitchSmoke(string smokeColor)
+    {
+        if (smokeColor == "red")
+        {
+            blueSmoke.SetActive(false);
+            redSmoke.SetActive(true);
+        }
+        else if (smokeColor == "blue")
+        {
+            blueSmoke.SetActive(true);
+            redSmoke.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Invalid smoke color specified!");
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +51,26 @@ public class AIRocketController : MonoBehaviour
         InvokeRepeating("UpdatePath", 0f, 0.5f);
         rb.velocity = transform.up * initialSpeed;
         creationTime = Time.time;
+
+        // Find the particle system game objects by name
+        redSmoke = transform.Find("redSmoke").gameObject;
+        blueSmoke = transform.Find("blueSmoke").gameObject;
+        if(target.name == "P2_Tank")
+        {
+            blueSmoke.SetActive(false);
+        }
+        else if(target.name == "P1_Tank")
+        {
+            redSmoke.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Invalid target specified!");
+        }
+
+        
+
+        
 
     }
     void UpdatePath()

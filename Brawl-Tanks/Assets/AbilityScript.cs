@@ -44,12 +44,16 @@ public class AbilityScript : MonoBehaviour
         {
             abilityType = "gatling";
         }
-        else if(ability.name == "power_rc"){
+        else if (ability.name == "power_rc")
+        {
             abilityType = "rc";
         }
-        else if(ability.name == "power_laser"){
+        else if (ability.name == "power_laser")
+        {
             abilityType = "laser";
-        }else if(ability.name == "power_ai"){
+        }
+        else if (ability.name == "power_ai")
+        {
             abilityType = "ai";
         }
         playerMove.abilities.Enqueue(abilityType);  // Add ability to the queue
@@ -99,7 +103,8 @@ public class AbilityScript : MonoBehaviour
         }
 
     }
-    public void AIRocket(GameObject player){
+    public void AIRocket(GameObject player)
+    {
         playerMovement playerMovement = player.GetComponent<playerMovement>();
         playerMovement.currentAbility = "";
         playerMovement.canShoot = false;
@@ -109,10 +114,16 @@ public class AbilityScript : MonoBehaviour
         if (rocketController != null)
         {
             rocketController.playerID = playerMovement.playerID;
-            if(player.name == "P1_Tank")
+            if (player.name == "P1_Tank")
+            {
                 rocketController.target = GameObject.Find("P2_Tank");
-            else if(player.name == "P2_Tank")
-                rocketController.target = GameObject.Find("P1_Tank"); 
+            }
+
+            else if (player.name == "P2_Tank")
+            {
+                rocketController.target = GameObject.Find("P1_Tank");
+            }
+
             rocketController.enabled = true;
             StartCoroutine(DestroyRocket(rocket));
         }
@@ -164,7 +175,7 @@ public class AbilityScript : MonoBehaviour
         yield return new WaitForSeconds(1);
         for (int i = 0; i < 18; i++)
         {
-            if(fragBomb == null) break;
+            if (fragBomb == null) break;
             var bullet = Instantiate(prefabs.fragmentPrefab, fragBomb.transform.position, Quaternion.identity);
             bullet.transform.Rotate(0, 0, 20 * i);
             bullet.GetComponent<Rigidbody2D>().AddForce(bullet.transform.up * 10f, ForceMode2D.Impulse);
@@ -249,5 +260,5 @@ public class AbilityScript : MonoBehaviour
         yield return new WaitForSeconds(15);
         Destroy(rocket);
     }
-    
+
 }
