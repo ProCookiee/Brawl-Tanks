@@ -135,7 +135,7 @@ public class enemyScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Player") {
-            gameManager.playerHP--;
+            GameState.playerHP--;
             Destroy(gameObject);
         }
         if (other.gameObject.tag == "Bullet")
@@ -149,6 +149,7 @@ public class enemyScript : MonoBehaviour
                 Destroy(other.gameObject);
                 if(enemyHP <= 0){
                     Destroy(gameObject);
+                    GameState.survivalScore++;
                 }
                 else{
                     enemyHP--;
