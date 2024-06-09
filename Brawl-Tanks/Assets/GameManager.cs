@@ -31,16 +31,19 @@ public class GameManager : MonoBehaviour
     private GridUpdater gridUpdater;
 
     public int currentModifier;
-    int resetTimer = 10;
-    int breakableWallTimer = 3;
+    int resetTimer = 15;
+    int breakableWallTimer = 5;
     bool setText = false;
 
     public bool isPaused = false;
 
     //SURVIVAL ONLY VARIABLES
+
+    public int score = 0;
     
     public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI hpText;
+
+    public int playerHP = 2;
 
     // Ensure only one instance of GameManager exists
     private void Awake()
@@ -70,21 +73,22 @@ public class GameManager : MonoBehaviour
             p2.name = "P2_Tank";
 
             // Nastavim zacetni rezultat
-            P1ScoreText.text = GameState.P1Score.ToString();
-            P2ScoreText.text = GameState.P2Score.ToString();
+            P1ScoreText.text = "P1: " + GameState.P1Score;
+            P2ScoreText.text = "P2: " + GameState.P2Score;
 
             PlayerPrefs.SetInt("DestroyedPlayerID", 0);
 
-            // To je grid za AI
-            gridUpdater = FindFirstObjectByType<GridUpdater>();
-            // Zgeneriram mapo
-            MapGenerator.GenerateMap(wallPrefab);
-            //updejtam grid za AI po ustvaritvi mape
-            gridUpdater.UpdateGrid();
+        // To je grid za AI
+        gridUpdater = FindFirstObjectByType<GridUpdater>();
+        // Zgeneriram mapo
+        MapGenerator.GenerateMap(wallPrefab);
+        //updejtam grid za AI po ustvaritvi mape
+        gridUpdater.UpdateGrid();
         
 
-            currentModifier = Random.Range(0, 6);
-
+            currentModifier = Random.Range(0, 5);
+            currentModifier = 5;
+            // Start the coroutine to regenerate the map every 15 seconds
             Debug.Log("current modifier " + currentModifier);
             if (currentModifier == 0)
             {
@@ -111,12 +115,6 @@ public class GameManager : MonoBehaviour
                 MapResetTimer.text = "Breakable walls!";
                 StartCoroutine(MakeBreakableWallsPeriodically());
             }
-            else if (currentModifier == 6)
-            {
-                MapResetTimer.text = "Empty Map!";
-                MapGenerator.DestroyMap();
-                gridUpdater.UpdateGrid();
-            }
             else
             {
                 MapResetTimer.text = "";
@@ -124,10 +122,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            GameState.survivalScore = 0;
             var p1 = Instantiate(player1, GenerateSpawnLocation(1), Quaternion.identity);
             p1.name = "P1_Tank";
-            GameState.playerHP = 20;
+            playerHP = 20;
         }
     }
 
@@ -141,14 +138,14 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(LoadNextScene());
                 // Trigger game over
                 //SceneManager.LoadScene("GameOver");
-                P1ScoreText.text = GameState.P1Score.ToString();
-                P2ScoreText.text = GameState.P2Score.ToString();
+                P1ScoreText.text = "P1: " + GameState.P1Score;
+                P2ScoreText.text = "P2: " + GameState.P2Score;
             }
             if (currentModifier == 4 && !setText)
             {
                 if (abilitiesSpawning.chosenAbility == 0)
                 {
-                    MapResetTimer.text = "Only power: AI Rocket";
+                    MapResetTimer.text = "Only power: Laser";
                 }
                 else if (abilitiesSpawning.chosenAbility == 1)
                 {
@@ -175,10 +172,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            scoreText.text = "Score: " + GameState.survivalScore;
-            hpText.text = "HP: " + GameState.playerHP;
-            if (GameState.playerHP <= 0){
-                SceneManager.LoadScene("GameOverSingleplayer");
+            scoreText.text = "Score: " + score;
+            if(playerHP <= 0){
+                SceneManager.LoadScene("GameOver");
             }
         }
     }
@@ -201,7 +197,7 @@ public class GameManager : MonoBehaviour
             {
                 MapGenerator.RegenerateMap(wallPrefab);
                 gridUpdater.UpdateGrid();
-                resetTimer = 11;
+                resetTimer = 16;
             }
 
             resetTimer--;
@@ -218,7 +214,7 @@ public class GameManager : MonoBehaviour
             if (breakableWallTimer == 1)
             {
                 MapGenerator.MakeBreakableWall(breakableWallPrefab);
-                breakableWallTimer = 4;
+                breakableWallTimer = 5;
             }
 
             breakableWallTimer--;

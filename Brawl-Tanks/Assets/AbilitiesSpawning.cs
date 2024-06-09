@@ -132,8 +132,6 @@ public class AbilitiesSpawning : MonoBehaviour
         }
         */
         // Select a random ability prefab
-        Debug.Log(chosenAbility);
-
         GameObject abilityPrefab;
         if (chosenAbility == -1)
         {

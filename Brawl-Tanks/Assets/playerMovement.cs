@@ -262,31 +262,16 @@ public class playerMovement : MonoBehaviour
             Debug.Log(Time.time - bullet.creationTime);
             if (Time.time - bullet.creationTime > 0.02f)
             {
-                if (SceneManager.GetActiveScene().name == "Survival")
-                {
-                    GameState.playerHP--;
-                    Destroy(other.gameObject);
-                } else
-                {
-                    Destroy(gameObject);
-                    GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
-                    Destroy(other.gameObject);
-                    bulletCount--;
-                }   
+                Destroy(gameObject);
+                GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
+                Destroy(other.gameObject);
+                bulletCount--;
             }
         }
         if (other.gameObject.tag == "DeathRay")
         {
-            if (SceneManager.GetActiveScene().name == "Survival")
-            {
-                GameState.playerHP -= 3;
-                Destroy(other.gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-                GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
-            }
+            Destroy(gameObject);
+            GameManager.instance.PlayerDestroyed((GameManager.PlayerID)playerID);
         }
         if (other.gameObject.tag == "rcRocket")
         {
