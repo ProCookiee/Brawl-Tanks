@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class enemyScript : MonoBehaviour
 {
     private float speed = 1f; // Speed at which the enemy moves
     private Transform player; // Reference to the player
     private float enemyHP = 1;
+    private float maxHP;
 
     private GameManager gameManager;
     private int enemyType;
@@ -15,6 +17,14 @@ public class enemyScript : MonoBehaviour
     private bool canShoot = true;
 
     Prefabs prefabs;
+
+    private Transform healthBar;
+    private Image healthBarForeground;
+
+    private GameObject currentLaser;
+    private GameObject currentLaserLine;
+
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
@@ -25,25 +35,50 @@ public class enemyScript : MonoBehaviour
         firePoint = transform.Find("Turret");
         player = GameObject.FindGameObjectWithTag("Player").transform;
         enemyType = getEnemyType();
-        if(enemyType == 1 || enemyType == 2 || enemyType == 3){
-            enemyHP = 1;
+        if (enemyType == 1)
+        {
+            enemyHP = 2;
         }
-        else{
+        else if (enemyType == 2)
+        {
+            enemyHP = 3;
+        }
+        else if (enemyType == 3)
+        {
+            enemyHP = 3;
+        }
+        else
+        {
             enemyHP = 0;
         }
+        maxHP = enemyHP;
+
+        // Initialize health bar
+        healthBar = transform.Find("HealthBar");
+        if (healthBar != null)
+        {
+            healthBarForeground = healthBar.Find("currentHP").GetComponent<Image>();
+        }
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    int getEnemyType(){
-        if(name == "Enemy1"){
+    int getEnemyType()
+    {
+        if (name == "Enemy1")
+        {
             return 1;
         }
-        else if(name == "Enemy2"){
+        else if (name == "Enemy2")
+        {
             return 2;
         }
-        else if(name == "Enemy3"){
+        else if (name == "Enemy3")
+        {
             return 3;
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -53,88 +88,118 @@ public class enemyScript : MonoBehaviour
     {
         if (player != null)
         {
-            if(enemyType == 1){
+            if (enemyType == 1)
+            {
                 followPlayer();
             }
-            else if(enemyType == 2){
-                //če je v blizini playerja se ustavi
-                if(Vector2.Distance(transform.position, player.position) > 4){
+            else if (enemyType == 2)
+            {
+                if (Vector2.Distance(transform.position, player.position) > 4)
+                {
                     followPlayer();
                 }
-                else{
+                else
+                {
                     rotateTowardsPlayer();
-                    if(canShoot){
+                    if (canShoot)
+                    {
                         canShoot = false;
                         shoot();
                         StartCoroutine(shootCooldown());
                     }
+                    else
+                    {
+                        rb.velocity = Vector2.zero;
+                        rb.angularVelocity = 0f;
+                    }
                 }
             }
-            else if(enemyType == 3){
-                //če je v blizini playerja se ustavi
-                if(Vector2.Distance(transform.position, player.position) > 6 && canShoot){
+            else if (enemyType == 3)
+            {
+                if (Vector2.Distance(transform.position, player.position) > 6 && canShoot)
+                {
                     followPlayer();
                 }
-                else{
-                    if(canShoot){
+                else
+                {
+                    if (canShoot)
+                    {
                         rotateTowardsPlayer();
                         canShoot = false;
                         StartCoroutine(shotLaser());
                         StartCoroutine(laserCooldown());
                     }
+                    else
+                    {
+                        rb.velocity = Vector2.zero;
+                        rb.angularVelocity = 0f;
+                    }
                 }
             }
-            else{
+            else
+            {
                 //transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
             }
         }
     }
 
-    void followPlayer(){
+    void followPlayer()
+    {
         Vector2 direction = player.position;
         transform.position = Vector2.MoveTowards(transform.position, direction, speed * Time.deltaTime);
-        // Rotate the enemy to face the player
         rotateTowardsPlayer();
-        
     }
 
-    void rotateTowardsPlayer(){
+    void rotateTowardsPlayer()
+    {
         Vector3 lookDirection = player.position - transform.position;
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
     }
 
-    void shoot(){
+    void shoot()
+    {
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
         var bullet = Instantiate(prefabs.bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.name = "enemy_bullet";
         Debug.Log("shoot");
     }
 
-    IEnumerator shotLaser(){
+    IEnumerator shotLaser()
+    {
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
         yield return new WaitForSeconds(0.1f);
-        var laserLine = Instantiate(prefabs.laserLine, firePoint.position, firePoint.rotation);
+        currentLaserLine = Instantiate(prefabs.laserLine, firePoint.position, firePoint.rotation);
         yield return new WaitForSeconds(2);
-        Destroy(laserLine);
-        var laser = Instantiate(prefabs.laserPrefab, firePoint.position, firePoint.rotation);
+        Destroy(currentLaserLine);
+        currentLaser = Instantiate(prefabs.laserPrefab, firePoint.position, firePoint.rotation);
         yield return new WaitForSeconds(1);
-        Destroy(laser);
+        Destroy(currentLaser);
+        currentLaser = null;
     }
 
-    IEnumerator shootCooldown(){
+    IEnumerator shootCooldown()
+    {
         yield return new WaitForSeconds(1f);
         canShoot = true;
     }
 
-    IEnumerator laserCooldown(){
+    IEnumerator laserCooldown()
+    {
         yield return new WaitForSeconds(3f);
         canShoot = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.tag == "Player") {
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
             gameManager.playerHP--;
             Destroy(gameObject);
         }
@@ -146,14 +211,55 @@ public class enemyScript : MonoBehaviour
             Debug.Log(Time.time - bullet.creationTime);
             if (Time.time - bullet.creationTime > 0.02f)
             {
+                enemyHP--;
                 Destroy(other.gameObject);
-                if(enemyHP <= 0){
+                if (enemyHP <= 0)
+                {
+                    CleanupBeforeDeath();
+                    giveScore(name);
                     Destroy(gameObject);
                 }
-                else{
-                    enemyHP--;
+                else
+                {  
+                    UpdateHealthBar();
                 }
             }
+        }
+    }
+
+    private void giveScore(string enemyName)
+    {
+        if (enemyName == "Enemy1")
+        {
+            gameManager.score += 1;
+        }
+        else if (enemyName == "Enemy2")
+        {
+            gameManager.score += 3;
+        }
+        else if (enemyName == "Enemy3")
+        {
+            gameManager.score += 5;
+        }
+    }
+
+    void UpdateHealthBar()
+    {
+        if (healthBarForeground != null)
+        {
+            healthBarForeground.fillAmount = enemyHP / maxHP;
+        }
+    }
+
+    void CleanupBeforeDeath()
+    {
+        if (currentLaser != null)
+        {
+            Destroy(currentLaser);
+        }
+        if (currentLaserLine != null)
+        {
+            Destroy(currentLaserLine);
         }
     }
 }
