@@ -26,6 +26,8 @@ public class enemyScript : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    GameState GameState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -230,15 +232,15 @@ public class enemyScript : MonoBehaviour
     {
         if (enemyName == "Enemy1")
         {
-            gameManager.score += 1;
+            GameState.survivalScore += 1;
         }
         else if (enemyName == "Enemy2")
         {
-            gameManager.score += 3;
+            GameState.survivalScore += 3;
         }
         else if (enemyName == "Enemy3")
         {
-            gameManager.score += 5;
+            GameState.survivalScore += 5;
         }
     }
 
