@@ -176,6 +176,12 @@ public static class MapGenerator
 
     public static void RegenerateMap(GameObject wallPrefab)
     {
+        DestroyMap();
+        GenerateMap(wallPrefab);
+    }
+
+    public static void DestroyMap()
+    {
         // Find all GameObjects in the scene
         GameObject[] allObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
 
@@ -189,8 +195,6 @@ public static class MapGenerator
                 UnityEngine.Object.Destroy(obj);
             }
         }
-
-        GenerateMap(wallPrefab);
     }
 
     public static void MakeBreakableWall(GameObject breakableWallPrefab)

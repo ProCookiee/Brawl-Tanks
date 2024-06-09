@@ -8,4 +8,7 @@ public class GameState : MonoBehaviour
     public static int P1Score = 0;
     public static int P2Score = 0;
     public static string gamemode;
+
+    public static int survivalScore = 0;
+    public static int playerHP = 3;
 }

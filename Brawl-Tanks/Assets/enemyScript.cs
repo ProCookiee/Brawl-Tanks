@@ -196,11 +196,9 @@ public class enemyScript : MonoBehaviour
         canShoot = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            gameManager.playerHP--;
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.tag == "Player") {
+            GameState.playerHP--;
             Destroy(gameObject);
         }
         if (other.gameObject.tag == "Bullet")
@@ -218,6 +216,7 @@ public class enemyScript : MonoBehaviour
                     CleanupBeforeDeath();
                     giveScore(name);
                     Destroy(gameObject);
+                    GameState.survivalScore++;
                 }
                 else
                 {  
