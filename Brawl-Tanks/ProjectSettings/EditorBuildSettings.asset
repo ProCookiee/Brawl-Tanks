@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Survival.unity
     guid: 201b22a6ab526e74dab9b24c30f9b187
+  - enabled: 1
+    path: Assets/Scenes/GameOverSingleplayer.unity
+    guid: f6ec080612d69384398da84a0c0f29b4
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

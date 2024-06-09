@@ -46,9 +46,15 @@ public class GameOverScript : MonoBehaviour
             if (GameState.P1Score == GameState.goal && GameState.P2Score == GameState.goal)
                 playerDestroyedText.text = "Draw!";
             else if (GameState.P1Score == GameState.goal)
+            {
                 playerDestroyedText.text = "Player 1 wins!";
+                playerDestroyedText.color = Color.blue;
+            }
             else if (GameState.P2Score == GameState.goal)
+            {
                 playerDestroyedText.text = "Player 2 wins!";
+                playerDestroyedText.color = Color.red;
+            }
 
             GameState.P1Score = 0;
             GameState.P2Score = 0;
@@ -59,9 +65,23 @@ public class GameOverScript : MonoBehaviour
             StartCoroutine(LoadMainMenuAfterDelay(2f));
 
             if (destroyedPlayerID == 3)
-                playerDestroyedText.text = "Both players were destroyed.";
+            {
+                playerDestroyedText.text = "Both players destroyed";
+               // playerDestroyedText.color = Color.purple;
+            }
             else
-                playerDestroyedText.text = "Player " + destroyedPlayerID + " was destroyed.";
+            {
+                playerDestroyedText.text = "Player " + destroyedPlayerID + " destroyed";
+
+                if (destroyedPlayerID == 1)
+                {
+                    playerDestroyedText.color = Color.red;
+                } else
+                {
+                    playerDestroyedText.color = Color.blue;
+                }
+            }
+                
         }
         
     }
