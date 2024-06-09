@@ -81,13 +81,14 @@ public class GameManager : MonoBehaviour
             MapGenerator.GenerateMap(wallPrefab);
             //updejtam grid za AI po ustvaritvi mape
             gridUpdater.UpdateGrid();
-        
 
-            currentModifier = Random.Range(0, 6);
+
+            currentModifier = Random.Range(0, 7);
 
             Debug.Log("current modifier " + currentModifier);
             if (currentModifier == 0)
             {
+                MapResetTimer.text = "Map reset in 10s";
                 StartCoroutine(RegenerateMapPeriodically());
             }
             else if (currentModifier == 1)
